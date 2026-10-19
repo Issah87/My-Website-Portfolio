@@ -105,11 +105,11 @@ export const ShopPage: React.FC = () => {
             </div>
 
             <button
-              onClick={() => openWhatsAppModal()}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#5B0F2A] hover:bg-[#43091D] text-white rounded font-medium transition-colors cursor-pointer self-start sm:self-auto"
+              onClick={() => openInquiryModal()}
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#5B0F2A] hover:bg-[#43091D] text-white rounded font-medium transition-colors cursor-pointer self-start sm:self-auto text-xs"
             >
-              <MessageCircle className="w-3.5 h-3.5" />
-              <span>Inquire on Website</span>
+              <ShoppingBag className="w-3.5 h-3.5" />
+              <span>Buy / Order on Website</span>
             </button>
           </div>
         </div>
@@ -303,9 +303,9 @@ export const ShopPage: React.FC = () => {
               </div>
             )}
 
-            {/* Products Grid */}
+            {/* Products Grid (Jumia Dense Catalog Layout) */}
             {filteredProducts.length > 0 ? (
-              <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
+              <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4">
                 {filteredProducts.map((product) => (
                   <ProductCard key={product.id} product={product} />
                 ))}

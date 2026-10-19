@@ -12,7 +12,10 @@ import {
   Image as ImageIcon,
   Download,
   Share2,
-  Mail
+  Mail,
+  Star,
+  ShieldCheck,
+  Smartphone
 } from 'lucide-react';
 import { useShop } from '../../context/ShopContext';
 import { AbayaLength, ProductColor } from '../../types';
@@ -24,6 +27,7 @@ import {
   SHOP_TARGET_EMAIL
 } from '../../utils/sendWhatsAppOrder';
 import { ColorizedDressImage } from '../shop/ColorizedDressImage';
+import { getProductPricing, formatGHS } from '../../utils/productPricing';
 
 export const ProductDetailPage: React.FC = () => {
   const { 
@@ -68,6 +72,7 @@ export const ProductDetailPage: React.FC = () => {
   const isFavorited = wishlist.includes(product.id);
   const baseImage = product.images[activeImageIndex] || product.images[0];
   const isBaseColor = selectedColor.name === product.colors[0]?.name;
+  const pricing = getProductPricing(product);
 
   const handleAddToBag = () => {
     const success = addToCart(product, selectedLength, selectedColor, customMeasurementNotes);
@@ -252,14 +257,32 @@ export const ProductDetailPage: React.FC = () => {
                 {product.name}
               </h1>
 
-              {/* Price Banner: NO NUMERIC PRICES */}
-              <div className="mt-3 p-3 bg-pink-50 border border-pink-200 rounded">
-                <span className="text-sm font-bold text-[#5B0F2A] block">
-                  Price on Request · Custom Sewing Available
-                </span>
-                <span className="text-[11px] text-stone-600 block mt-0.5">
-                  Pricing depends on your exact height length, fabric choice, and custom details.
-                </span>
+              {/* Jumia Pricing Presentation */}
+              <div className="mt-3 p-3.5 bg-stone-50 border border-stone-200 rounded-sm">
+                <div className="flex items-baseline gap-2.5">
+                  <span className="text-2xl font-black text-stone-900">
+                    {formatGHS(pricing.price)}
+                  </span>
+                  <span className="text-sm text-stone-400 line-through">
+                    {formatGHS(pricing.originalPrice)}
+                  </span>
+                  <span className="bg-[#E02A3B] text-white text-xs font-black px-2 py-0.5 rounded-xs shadow-2xs">
+                    -{pricing.discountPercent}%
+                  </span>
+                </div>
+                <div className="flex flex-wrap items-center gap-2 mt-2 text-xs text-stone-600">
+                  <div className="flex items-center text-amber-500">
+                    <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
+                    <span className="font-bold ml-1 text-stone-800">{pricing.rating}</span>
+                  </div>
+                  <span>·</span>
+                  <span>{pricing.reviewCount} customer reviews</span>
+                  <span>·</span>
+                  <span className="text-emerald-700 font-semibold flex items-center gap-1">
+                    <ShieldCheck className="w-3.5 h-3.5" />
+                    Official Atelier (Oforikrom)
+                  </span>
+                </div>
               </div>
             </div>
 
@@ -422,10 +445,31 @@ export const ProductDetailPage: React.FC = () => {
                 <span>Order with Custom Measurements / Tailoring</span>
               </button>
 
-              {/* Boutique Official Contact Info */}
-              <div className="p-3 bg-stone-50 border border-stone-200 rounded flex flex-col sm:flex-row sm:items-center justify-between gap-1 text-xs text-stone-600">
-                <span>Official Boutique Contact: <strong className="text-stone-900 font-sans">On-Website Messaging</strong></span>
-                <span className="text-[#5B0F2A] font-semibold font-mono">{SHOP_TARGET_EMAIL}</span>
+              {/* Jumia Delivery & Guarantee Info Card */}
+              <div className="p-3.5 bg-stone-50 border border-stone-200 rounded-xs text-xs space-y-2">
+                <div className="flex items-start gap-2.5">
+                  <Truck className="w-4 h-4 text-[#5B0F2A] shrink-0 mt-0.5" />
+                  <div>
+                    <span className="font-bold text-stone-900 block">Nationwide Delivery across Ghana</span>
+                    <span className="text-[11px] text-stone-500">Bus dispatch to Accra, Kumasi, Tamale, Takoradi & all 16 regions (2-4 days)</span>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-2.5 pt-1 border-t border-stone-200/60">
+                  <Smartphone className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
+                  <div>
+                    <span className="font-bold text-stone-900 block">MoMo & Cash on Delivery Accepted</span>
+                    <span className="text-[11px] text-stone-500">Pay securely via MTN Mobile Money, Telecel Cash, AT Money or on delivery</span>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-2.5 pt-1 border-t border-stone-200/60">
+                  <ShieldCheck className="w-4 h-4 text-emerald-700 shrink-0 mt-0.5" />
+                  <div>
+                    <span className="font-bold text-stone-900 block">Hand-Tailored Guarantee</span>
+                    <span className="text-[11px] text-stone-500">Atelier in Oforikrom, Accra Town Behind Central Mosque · Email: {SHOP_TARGET_EMAIL}</span>
+                  </div>
+                </div>
               </div>
             </div>
 

@@ -1,5 +1,17 @@
-import React from 'react';
-import { MapPin, Scissors, Image as ImageIcon, Ruler, Mail, MessageSquare, ShoppingBag, ShieldCheck } from 'lucide-react';
+import React, { useState } from 'react';
+import { 
+  MapPin, 
+  Scissors, 
+  Image as ImageIcon, 
+  Ruler, 
+  Mail, 
+  ShoppingBag, 
+  ShieldCheck, 
+  Truck, 
+  CreditCard,
+  Send,
+  CheckCircle2
+} from 'lucide-react';
 import { useShop } from '../../context/ShopContext';
 import { ModestCategory } from '../../types';
 import { SHOP_TARGET_EMAIL } from '../../utils/sendWhatsAppOrder';
@@ -9,10 +21,22 @@ export const Footer: React.FC = () => {
     setActiveTab, 
     setFilters, 
     setIsSizeGuideOpen, 
-    openInquiryModal, 
-    setIsFlyerModalOpen,
-    isOwnerAuthenticated 
+    setIsFlyerModalOpen 
   } = useShop();
+
+  const [newsletterEmail, setNewsletterEmail] = useState('');
+  const [subscribed, setSubscribed] = useState(false);
+
+  const handleNewsletterSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (newsletterEmail.trim()) {
+      setSubscribed(true);
+      setTimeout(() => {
+        setNewsletterEmail('');
+        setSubscribed(false);
+      }, 4000);
+    }
+  };
 
   const handleCategoryClick = (cat: ModestCategory) => {
     setFilters(prev => ({ ...prev, category: cat, searchQuery: '' }));
@@ -21,39 +45,147 @@ export const Footer: React.FC = () => {
   };
 
   return (
-    <footer className="bg-[#2D0614] text-[#EAD8DE] pt-14 pb-10 border-t border-[#43091D]">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 pb-10 border-b border-pink-900/40">
-          
-          {/* Brand & Slogan */}
-          <div className="space-y-3.5">
-            <span className="font-serif-brand text-2xl font-bold tracking-tight text-white block">
-              Al-Ikhlas Fashion Center
-            </span>
-            <p className="text-xs text-amber-300 font-semibold italic">
-              "Your one stop shop Abaya plug · Quality is our Hallmark"
-            </p>
-            <p className="text-xs text-stone-300 leading-relaxed">
-              Ghana's premier modest fashion center. Specializing in bespoke sewing of abayas, flowing French khimars, straight dresses, and coordinating sets.
-            </p>
+    <footer className="bg-[#1C040C] text-[#EAD8DE] border-t-2 border-[#5B0F2A]">
+      
+      {/* 1. Jumia-Style Newsletter & Promo Bar */}
+      <div className="bg-[#2D0614] border-b border-pink-950/80 py-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-6">
             
-            <div className="pt-1 flex flex-wrap items-center gap-2">
+            <div className="text-center md:text-left">
+              <span className="text-amber-300 font-extrabold text-xs uppercase tracking-wider block mb-1">
+                New to Al-Ikhlas Fashion Center?
+              </span>
+              <h3 className="font-serif-brand text-xl sm:text-2xl text-white font-bold">
+                Subscribe for New Abaya Arrivals & Flash Deals
+              </h3>
+              <p className="text-xs text-stone-300 mt-1 max-w-lg">
+                Receive instant notifications when new Dubai fabrics, gathered boubous, and seasonal couture drop in Ghana.
+              </p>
+            </div>
+
+            <form onSubmit={handleNewsletterSubmit} className="w-full md:w-auto flex-1 max-w-md flex items-center">
+              {subscribed ? (
+                <div className="w-full p-2.5 bg-emerald-950/80 border border-emerald-500/50 text-emerald-200 text-xs font-semibold rounded-xs flex items-center gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+                  <span>Thank you! You're subscribed for atelier updates.</span>
+                </div>
+              ) : (
+                <div className="w-full flex rounded-xs overflow-hidden shadow-2xs border border-pink-800/50">
+                  <input
+                    type="email"
+                    required
+                    value={newsletterEmail}
+                    onChange={(e) => setNewsletterEmail(e.target.value)}
+                    placeholder="Enter your email address..."
+                    className="flex-1 py-2.5 px-3 bg-white text-stone-900 text-xs focus:outline-none placeholder-stone-400"
+                  />
+                  <button
+                    type="submit"
+                    className="py-2.5 px-5 bg-[#5B0F2A] hover:bg-[#721335] text-white font-bold text-xs uppercase tracking-wider transition-colors shrink-0 cursor-pointer"
+                  >
+                    Subscribe
+                  </button>
+                </div>
+              )}
+            </form>
+
+          </div>
+        </div>
+      </div>
+
+      {/* 2. Jumia 4-Column Directory Grid */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 pb-10 border-b border-pink-950/80">
+          
+          {/* Column 1: Customer Care */}
+          <div className="space-y-3">
+            <h4 className="text-xs font-bold text-amber-300 uppercase tracking-wider">
+              Customer Care
+            </h4>
+            <ul className="space-y-2 text-xs text-stone-300">
+              <li>
+                <button
+                  onClick={() => {
+                    setActiveTab('my-orders');
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                  }}
+                  className="hover:text-white transition-colors cursor-pointer text-left font-semibold text-pink-200 flex items-center gap-1.5"
+                >
+                  <ShoppingBag className="w-3.5 h-3.5 text-amber-300" />
+                  <span>Track My Ordered Dresses</span>
+                </button>
+              </li>
+              <li>
+                <button
+                  onClick={() => setIsSizeGuideOpen(true)}
+                  className="hover:text-white transition-colors cursor-pointer text-left"
+                >
+                  Sizing Guide (50" to 60" Custom)
+                </button>
+              </li>
+              <li>
+                <button
+                  onClick={() => setIsFlyerModalOpen(true)}
+                  className="hover:text-white transition-colors cursor-pointer text-left"
+                >
+                  Atelier Services & Location Flyer
+                </button>
+              </li>
+              <li>
+                <button
+                  onClick={() => {
+                    setActiveTab('story');
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                  }}
+                  className="hover:text-white transition-colors cursor-pointer text-left"
+                >
+                  Custom Tailoring & Measurements
+                </button>
+              </li>
+              <li>
+                <a
+                  href={`mailto:${SHOP_TARGET_EMAIL}`}
+                  className="hover:text-white transition-colors text-left flex items-center gap-1"
+                >
+                  <Mail className="w-3 h-3 text-amber-300" />
+                  <span>Email Support: {SHOP_TARGET_EMAIL}</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          {/* Column 2: About Al-Ikhlas */}
+          <div className="space-y-3">
+            <h4 className="text-xs font-bold text-amber-300 uppercase tracking-wider">
+              About Al-Ikhlas
+            </h4>
+            <p className="text-xs text-stone-300 leading-relaxed">
+              <strong>Al-Ikhlas Fashion Center</strong> is your premier modest fashion plug in Ghana. Specializing in bespoke sewing of abayas, flowing boubous, French khimars, and two-piece sets.
+            </p>
+            <p className="text-[11px] text-amber-200 font-serif-brand italic">
+              "Quality is our Hallmark"
+            </p>
+            <div className="pt-1">
               <button
-                onClick={() => setIsFlyerModalOpen(true)}
-                className="inline-flex items-center gap-1.5 text-xs text-white bg-white/10 hover:bg-white/20 px-3 py-1.5 rounded transition-colors cursor-pointer border border-pink-400/30"
+                onClick={() => {
+                  setActiveTab('owner-portal');
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }}
+                className="inline-flex items-center gap-1.5 text-xs text-amber-300 hover:text-amber-200 font-semibold cursor-pointer"
               >
-                <ImageIcon className="w-3.5 h-3.5 text-amber-300" />
-                <span>View Official Flyer</span>
+                <ShieldCheck className="w-3.5 h-3.5" />
+                <span>Boutique Owner Portal</span>
               </button>
             </div>
           </div>
 
-          {/* Quick Categories */}
+          {/* Column 3: Modest Collections */}
           <div className="space-y-3">
             <h4 className="text-xs font-bold text-amber-300 uppercase tracking-wider">
               Modest Collections
             </h4>
-            <ul className="space-y-2 text-xs">
+            <ul className="space-y-2 text-xs text-stone-300">
               <li>
                 <button
                   onClick={() => handleCategoryClick('Straight Abayas & Dresses')}
@@ -67,7 +199,7 @@ export const Footer: React.FC = () => {
                   onClick={() => handleCategoryClick('Gathered Abayas')}
                   className="hover:text-white transition-colors cursor-pointer text-left"
                 >
-                  Gathered Waist & Tiered Abayas
+                  Gathered Waist & Tiered Boubous
                 </button>
               </li>
               <li>
@@ -88,124 +220,58 @@ export const Footer: React.FC = () => {
               </li>
               <li>
                 <button
-                  onClick={() => {
-                    setActiveTab('my-orders');
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                  }}
-                  className="hover:text-amber-200 text-pink-200 transition-colors cursor-pointer text-left font-semibold flex items-center gap-1"
+                  onClick={() => handleCategoryClick('All')}
+                  className="hover:text-white transition-colors cursor-pointer text-left"
                 >
-                  <ShoppingBag className="w-3.5 h-3.5 text-amber-300" />
-                  <span>My Ordered Dresses & Tailoring Status</span>
-                </button>
-              </li>
-              <li>
-                <button
-                  onClick={() => {
-                    setActiveTab('owner-portal');
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                  }}
-                  className="hover:text-amber-200 text-stone-300 transition-colors cursor-pointer text-left flex items-center gap-1"
-                >
-                  <ShieldCheck className="w-3.5 h-3.5 text-amber-300" />
-                  <span>{isOwnerAuthenticated ? 'Owner Atelier Portal (Unlocked)' : 'Owner Atelier Portal'}</span>
+                  Browse Full Catalog (30+ Styles)
                 </button>
               </li>
             </ul>
           </div>
 
-          {/* Location & Ghana Delivery */}
+          {/* Column 4: Delivery & Payment in Ghana */}
           <div className="space-y-3">
             <h4 className="text-xs font-bold text-amber-300 uppercase tracking-wider">
-              Boutique Location
+              Ghana Delivery & Payment
             </h4>
-            <div className="space-y-2 text-xs">
-              <div className="flex items-start gap-2 text-white">
-                <MapPin className="w-4 h-4 text-amber-300 shrink-0 mt-0.5" />
+            <div className="text-xs text-stone-300 space-y-2 leading-relaxed">
+              <div className="flex items-start gap-2">
+                <Truck className="w-4 h-4 text-amber-300 shrink-0 mt-0.5" />
                 <div>
-                  <span className="font-semibold block">Physical Workshop & Showroom:</span>
-                  <span>Oforikrom, Accra Town Behind Central Mosque (Kumasi, Ghana)</span>
+                  <span className="font-semibold text-white block">Nationwide Dispatch</span>
+                  <span>Accra, Kumasi, Tamale, Takoradi, Sunyani, Cape Coast & all 16 regions.</span>
                 </div>
               </div>
 
-              <div className="pt-1 space-y-1 text-stone-300 text-[11px]">
-                <p>• In-store fittings & pickup at Oforikrom shop</p>
-                <p>• Doorstep dispatch in Kumasi & Accra</p>
-                <p>• VIP / STC parcel delivery to all 16 Ghana regions</p>
+              <div className="flex items-start gap-2 pt-1">
+                <MapPin className="w-4 h-4 text-amber-300 shrink-0 mt-0.5" />
+                <div>
+                  <span className="font-semibold text-white block">Physical Atelier</span>
+                  <span>Oforikrom, Accra Town Behind Central Mosque (Kumasi, Ghana).</span>
+                </div>
               </div>
 
-              <div className="pt-1">
-                <button
-                  onClick={() => setIsSizeGuideOpen(true)}
-                  className="text-xs text-amber-300 hover:underline cursor-pointer flex items-center gap-1 font-semibold"
-                >
-                  <Ruler className="w-3.5 h-3.5" />
-                  <span>Abaya Length (50" to 60") Guide</span>
-                </button>
-              </div>
-            </div>
-          </div>
-
-          {/* Contact & On-Website Communication (Only Email) */}
-          <div className="space-y-3">
-            <h4 className="text-xs font-bold text-amber-300 uppercase tracking-wider">
-              Orders & Boutique Contact
-            </h4>
-            <div className="space-y-2.5 text-xs">
-              <p className="text-stone-300">
-                All buyer discussions and order tailoring questions take place directly on the website:
-              </p>
-              
-              <div className="space-y-2">
-                <a 
-                  href={`mailto:${SHOP_TARGET_EMAIL}`} 
-                  className="flex items-center gap-2 hover:text-white transition-colors text-amber-200 font-mono text-xs p-2 rounded bg-white/5 border border-pink-500/20"
-                >
-                  <Mail className="w-4 h-4 text-amber-300 shrink-0" />
-                  <div>
-                    <span className="block text-[10px] text-stone-400 font-sans uppercase">Official Boutique Email</span>
-                    <strong className="text-white font-mono">{SHOP_TARGET_EMAIL}</strong>
-                  </div>
-                </a>
-              </div>
-
-              <div className="pt-1 flex flex-col gap-2">
-                <button
-                  onClick={() => {
-                    setActiveTab('my-orders');
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                  }}
-                  className="w-full inline-flex items-center justify-center gap-1.5 px-3 py-2 bg-white/10 hover:bg-white/20 text-white rounded font-bold text-xs cursor-pointer transition-colors border border-white/20"
-                >
-                  <ShoppingBag className="w-3.5 h-3.5 text-amber-300" />
-                  <span>My Ordered Dresses (Customer)</span>
-                </button>
-
-                <button
-                  onClick={() => {
-                    setActiveTab('owner-portal');
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                  }}
-                  className="w-full inline-flex items-center justify-center gap-1.5 px-3 py-2 bg-[#5B0F2A] hover:bg-[#43091D] text-white rounded font-bold text-xs cursor-pointer transition-colors border border-pink-400/40"
-                >
-                  <ShieldCheck className="w-3.5 h-3.5 text-amber-300" />
-                  <span>Atelier Owner Portal (All Orders)</span>
-                </button>
+              <div className="pt-2 flex flex-wrap gap-1.5 text-[10px] font-bold">
+                <span className="bg-amber-400 text-stone-900 px-2 py-0.5 rounded-xs">MTN MoMo</span>
+                <span className="bg-rose-500 text-white px-2 py-0.5 rounded-xs">Telecel Cash</span>
+                <span className="bg-blue-600 text-white px-2 py-0.5 rounded-xs">AT Money</span>
+                <span className="bg-stone-800 text-amber-200 px-2 py-0.5 rounded-xs">Cash on Delivery</span>
               </div>
             </div>
           </div>
 
         </div>
 
-        {/* Bottom Bar: Copyright */}
-        <div className="pt-6 flex flex-col sm:flex-row items-center justify-between text-[11px] text-pink-300/70 gap-3">
-          <p>© {new Date().getFullYear()} Al-Ikhlas Fashion Center. All rights reserved. Oforikrom, Accra Town Behind Central Mosque, Ghana.</p>
-          <div className="flex items-center gap-4">
-            <span>Quality is our Hallmark</span>
-            <span>·</span>
-            <span>Your One Stop Shop Abaya Plug</span>
-          </div>
+        {/* 3. Bottom Legal & Attribution */}
+        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-stone-400 gap-4">
+          <p>© {new Date().getFullYear()} AL-IKHLAS FASHION CENTER. All rights reserved.</p>
+          <p className="text-stone-400 text-xs">
+            Quality is our Hallmark · Oforikrom, Ghana
+          </p>
         </div>
+
       </div>
+
     </footer>
   );
 };
