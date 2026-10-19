@@ -9,8 +9,10 @@ import { ProductDetailPage } from './components/product/ProductDetailPage';
 import { CheckoutPage } from './components/checkout/CheckoutPage';
 import { OrderSuccessView } from './components/order/OrderSuccessView';
 import { AtelierStoryPage } from './components/story/AtelierStoryPage';
+import { MyOrdersPage } from './components/orders/MyOrdersPage';
+import { OwnerPortalPage } from './components/owner/OwnerPortalPage';
 import { CartDrawer } from './components/cart/CartDrawer';
-import { WhatsAppModal } from './components/modals/WhatsAppModal';
+import { WebsiteInquiryModal } from './components/modals/WebsiteInquiryModal';
 import { SizeGuideModal } from './components/modals/SizeGuideModal';
 import { FlyerModal } from './components/modals/FlyerModal';
 
@@ -19,7 +21,7 @@ const AppContent: React.FC = () => {
 
   return (
     <div className="min-h-screen flex flex-col bg-[#FAF9F5] text-stone-900 selection:bg-pink-100 selection:text-[#5B0F2A]">
-      {/* Top Announcements with Ghana location & direct hotline */}
+      {/* Top Announcements with Ghana location & direct email */}
       <AnnouncementBar />
 
       {/* Navigation Top Bar */}
@@ -33,14 +35,16 @@ const AppContent: React.FC = () => {
         {activeTab === 'checkout' && <CheckoutPage />}
         {activeTab === 'order-success' && <OrderSuccessView />}
         {activeTab === 'story' && <AtelierStoryPage />}
+        {activeTab === 'my-orders' && <MyOrdersPage />}
+        {activeTab === 'owner-portal' && <OwnerPortalPage />}
       </main>
 
-      {/* Footer with flyer details, Oforikrom address & phone numbers */}
+      {/* Footer with flyer details, Oforikrom address & email */}
       <Footer />
 
       {/* Modals & Drawers */}
       <CartDrawer />
-      <WhatsAppModal />
+      <WebsiteInquiryModal />
       <SizeGuideModal />
       <FlyerModal />
     </div>

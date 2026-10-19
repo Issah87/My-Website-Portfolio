@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { ShoppingBag, Search, Phone, MessageCircle, Menu, X, Scissors, MapPin } from 'lucide-react';
+import { ShoppingBag, Search, Menu, X, Scissors, MapPin, Mail, MessageSquare, ShieldCheck } from 'lucide-react';
 import { useShop } from '../../context/ShopContext';
 import { ModestCategory } from '../../types';
+import { SHOP_TARGET_EMAIL } from '../../utils/sendWhatsAppOrder';
 
 export const Navbar: React.FC = () => {
   const { 
@@ -9,8 +10,9 @@ export const Navbar: React.FC = () => {
     setActiveTab, 
     cartCount, 
     setIsCartDrawerOpen, 
-    openWhatsAppModal,
+    openInquiryModal,
     setIsFlyerModalOpen,
+    isOwnerAuthenticated,
     setFilters 
   } = useShop();
 
@@ -67,8 +69,8 @@ export const Navbar: React.FC = () => {
             </span>
           </button>
 
-          {/* ZONE 2: 4-6 clean text navigation links (single line, subtle hover underline) */}
-          <nav className="hidden lg:flex items-center gap-7 text-sm font-medium tracking-wide text-stone-700">
+          {/* ZONE 2: Clean text navigation links */}
+          <nav className="hidden lg:flex items-center gap-6 text-sm font-medium tracking-wide text-stone-700">
             <button
               onClick={() => {
                 setActiveTab('home');
@@ -126,6 +128,21 @@ export const Navbar: React.FC = () => {
               Capelet Sets
             </button>
 
+            {/* My Orders link */}
+            <button
+              onClick={() => {
+                setActiveTab('my-orders');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+              className={`pb-1 transition-colors relative cursor-pointer ${
+                activeTab === 'my-orders'
+                  ? 'text-[#5B0F2A] font-semibold after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-[#5B0F2A]'
+                  : 'hover:text-[#5B0F2A]'
+              }`}
+            >
+              My Orders
+            </button>
+
             <button
               onClick={() => {
                 setActiveTab('story');
@@ -141,7 +158,7 @@ export const Navbar: React.FC = () => {
             </button>
           </nav>
 
-          {/* ZONE 3: 1-2 primary actions */}
+          {/* ZONE 3: Actions */}
           <div className="flex items-center gap-2.5 sm:gap-3">
             {/* Search bar toggle */}
             <div className="relative">
@@ -174,23 +191,30 @@ export const Navbar: React.FC = () => {
               )}
             </div>
 
-            {/* Direct Call Shop Button */}
-            <a
-              href="tel:0501273875"
-              className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-[#5B0F2A] bg-pink-50 hover:bg-pink-100 border border-pink-200 rounded transition-colors"
-              title="Call 050 127 3875"
-            >
-              <Phone className="w-3.5 h-3.5 text-[#5B0F2A]" />
-              <span className="font-mono font-bold">050 127 3875</span>
-            </a>
-
-            {/* Direct WhatsApp Concierge */}
+            {/* My Orders Button (Customer View - only their orders) */}
             <button
-              onClick={() => openWhatsAppModal()}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-white bg-emerald-700 hover:bg-emerald-800 rounded transition-colors cursor-pointer shadow-xs"
+              onClick={() => {
+                setActiveTab('my-orders');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-[#5B0F2A] bg-pink-50 hover:bg-pink-100 border border-pink-200 rounded transition-colors cursor-pointer"
+              title="View what you have ordered"
             >
-              <MessageCircle className="w-3.5 h-3.5" />
-              <span className="hidden md:inline">WhatsApp 050 127 3875</span>
+              <ShoppingBag className="w-3.5 h-3.5 text-[#5B0F2A]" />
+              <span>My Orders</span>
+            </button>
+
+            {/* Atelier Owner Portal Button */}
+            <button
+              onClick={() => {
+                setActiveTab('owner-portal');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+              className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-stone-800 bg-white hover:bg-stone-50 border border-stone-300 rounded transition-colors cursor-pointer shadow-2xs"
+              title="Boutique Owner Portal (View all orders)"
+            >
+              <ShieldCheck className="w-3.5 h-3.5 text-amber-600" />
+              <span>Owner Portal</span>
             </button>
 
             {/* Inquiries / Selection Bag */}
@@ -214,13 +238,10 @@ export const Navbar: React.FC = () => {
           <div className="lg:hidden border-t border-stone-200 py-4 px-2 space-y-3 bg-[#FAF9F5]">
             <div className="p-3 bg-pink-50 border border-pink-200 rounded text-xs space-y-1">
               <span className="font-semibold text-[#5B0F2A] block">Al-Ikhlas Fashion Center</span>
-              <p className="text-[11px] text-stone-600">Oforikrom, Accra Town Behind Central Mosque</p>
-              <div className="pt-1 flex flex-wrap gap-2 font-mono font-bold text-xs text-[#5B0F2A]">
-                <a href="tel:0501273875" className="hover:underline">📞 050 127 3875</a>
-                <span>·</span>
-                <a href="tel:0242842090" className="hover:underline">📞 024 284 2090</a>
-              </div>
-              <p className="text-[11px] text-stone-500 pt-0.5">Email: issahn712@gmail.com</p>
+              <p className="text-[11px] text-stone-600">Oforikrom, Accra Town Behind Central Mosque, Kumasi</p>
+              <p className="text-[11px] text-[#5B0F2A] font-semibold pt-0.5">
+                Official Email: {SHOP_TARGET_EMAIL}
+              </p>
             </div>
 
             <button
@@ -241,6 +262,24 @@ export const Navbar: React.FC = () => {
               className="block w-full text-left py-2 px-3 text-sm font-medium text-stone-900 hover:bg-stone-100 rounded"
             >
               All Modest Dresses
+            </button>
+            <button
+              onClick={() => {
+                setActiveTab('my-orders');
+                setMobileMenuOpen(false);
+              }}
+              className="block w-full text-left py-2 px-3 text-sm font-bold text-[#5B0F2A] hover:bg-stone-100 rounded"
+            >
+              My Ordered Dresses (Customer View)
+            </button>
+            <button
+              onClick={() => {
+                setActiveTab('owner-portal');
+                setMobileMenuOpen(false);
+              }}
+              className="block w-full text-left py-2 px-3 text-sm font-bold text-stone-800 hover:bg-stone-100 rounded"
+            >
+              Owner Portal (All Orders View)
             </button>
             <button
               onClick={() => navigateToCategory('Straight Abayas & Dresses')}

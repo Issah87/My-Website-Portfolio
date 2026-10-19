@@ -1,5 +1,5 @@
 import React from 'react';
-import { X, Ruler, Phone, MessageCircle, MapPin } from 'lucide-react';
+import { X, Ruler, Scissors, MessageCircle, MapPin } from 'lucide-react';
 import { useShop } from '../../context/ShopContext';
 
 export const SizeGuideModal: React.FC = () => {
@@ -77,10 +77,10 @@ export const SizeGuideModal: React.FC = () => {
               setIsSizeGuideOpen(false);
               openWhatsAppModal();
             }}
-            className="text-xs text-emerald-800 font-semibold hover:underline cursor-pointer flex items-center gap-1"
+            className="text-xs text-[#5B0F2A] font-semibold hover:underline cursor-pointer flex items-center gap-1"
           >
-            <MessageCircle className="w-3.5 h-3.5" />
-            <span>Send your measurements to our WhatsApp (050 127 3875) →</span>
+            <Scissors className="w-3.5 h-3.5" />
+            <span>Send your measurements to our Atelier on the website →</span>
           </button>
 
           <button

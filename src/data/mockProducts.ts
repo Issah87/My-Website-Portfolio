@@ -31,10 +31,6 @@ export const INITIAL_SETTINGS: StoreSettings = {
   location: 'Oforikrom, Accra Town Behind the Central Mosque',
   addressDetails: 'Accra Town, Behind Central Mosque, Oforikrom, Ghana',
   email: 'issahn712@gmail.com',
-  phones: ['050 127 3875', '024 284 2090', '026 446 0744'],
-  ownerWhatsApp: '233501273875', // 050 127 3875
-  secondaryWhatsApp: '233242842090', // 024 284 2090
-  altPhone: '233264460744',
   services: [
     'Sewing of Abayas',
     'Hijabs',
@@ -51,7 +47,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     name: 'Two-Tone Teal Capelet Pleated Maxi Abaya Dress',
     slug: 'two-tone-teal-capelet-pleated-maxi-abaya-dress',
     category: 'Capelet & Two-Piece Sets',
-    priceText: 'Price on Request · Call/WhatsApp for Custom Sewing',
+    priceText: 'Price on Request · Custom Sewing Available',
     colors: [
       { name: 'Petrol Teal & Sand Beige', hex: '#1B5B66', secondaryHex: '#D7C4B7' },
       { name: 'Mocha & Cream Vanilla', hex: '#5A3D28', secondaryHex: '#F3ECE2' },
@@ -93,7 +89,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     name: 'Dusty Rose Bell-Sleeve Tie Capelet A-Line Dress',
     slug: 'dusty-rose-bell-sleeve-tie-capelet-aline-dress',
     category: 'Straight Abayas & Dresses',
-    priceText: 'Price on Request · Call/WhatsApp for Custom Sewing',
+    priceText: 'Price on Request · Custom Sewing Available',
     colors: [
       { name: 'Dusty Rose & Soft Mauve', hex: '#C28490', secondaryHex: '#E8C5CE' },
       { name: 'Sage Olive & Cream', hex: '#6B7F67', secondaryHex: '#F5F2EB' },
@@ -134,7 +130,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     name: 'Forest Olive Gathered Maxi Abaya with Shoulder Capelet',
     slug: 'forest-olive-gathered-maxi-abaya-shoulder-capelet',
     category: 'Gathered Abayas',
-    priceText: 'Price on Request · Call/WhatsApp for Custom Sewing',
+    priceText: 'Price on Request · Custom Sewing Available',
     colors: [
       { name: 'Forest Olive & Champagne', hex: '#38462F', secondaryHex: '#D9C3A5' },
       { name: 'Burgundy Wine & Blush Pink', hex: '#5E1929', secondaryHex: '#E6BAC5' },
@@ -175,7 +171,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     name: 'Rich Mocha Chocolate & Sand Contrast Split Abaya',
     slug: 'rich-mocha-chocolate-sand-contrast-split-abaya',
     category: 'Abayas',
-    priceText: 'Price on Request · Call/WhatsApp for Custom Sewing',
+    priceText: 'Price on Request · Custom Sewing Available',
     colors: [
       { name: 'Rich Mocha & Desert Sand', hex: '#4A3528', secondaryHex: '#D8C7B5' },
       { name: 'Black & Ivory Contrast', hex: '#1C1917', secondaryHex: '#FAF8F5' },
@@ -216,7 +212,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     name: '3D Butterfly Bow Appliqué Cream & Chocolate Abaya',
     slug: '3d-butterfly-bow-applique-cream-chocolate-abaya',
     category: 'Abayas',
-    priceText: 'Price on Request · Call/WhatsApp for Custom Sewing',
+    priceText: 'Price on Request · Custom Sewing Available',
     colors: [
       { name: 'Cream Sand & Chocolate Bows', hex: '#E8D8C8', secondaryHex: '#4A3528' },
       { name: 'All Black & Satin Silver Bows', hex: '#1C1917', secondaryHex: '#D1D5DB' },
@@ -257,7 +253,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     name: 'Contrast Brown Border Open Abaya with Sleeve Bows',
     slug: 'contrast-brown-border-open-abaya-sleeve-bows',
     category: 'Abayas',
-    priceText: 'Price on Request · Call/WhatsApp for Custom Sewing',
+    priceText: 'Price on Request · Custom Sewing Available',
     colors: [
       { name: 'Sand Beige & Chocolate Trim', hex: '#D8C7B5', secondaryHex: '#3E271B' },
       { name: 'Jet Black & Crisp White Trim', hex: '#1C1917', secondaryHex: '#FFFFFF' },
@@ -298,7 +294,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     name: 'Minimalist Midnight Navy Straight-Cut Abaya',
     slug: 'minimalist-midnight-navy-straight-cut-abaya',
     category: 'Straight Abayas & Dresses',
-    priceText: 'Price on Request · Call/WhatsApp for Custom Sewing',
+    priceText: 'Price on Request · Custom Sewing Available',
     colors: [
       { name: 'Midnight Navy & Pearl Taupe', hex: '#1B263B', secondaryHex: '#C5B4A5' },
       { name: 'Pure Jet Black & Onyx Piping', hex: '#171717', secondaryHex: '#3A3A3D' },
@@ -339,7 +335,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     name: 'Classic Camel & Cocoa Linen Straight Open Abaya',
     slug: 'classic-camel-cocoa-linen-straight-open-abaya',
     category: 'Straight Abayas & Dresses',
-    priceText: 'Price on Request · Call/WhatsApp for Custom Sewing',
+    priceText: 'Price on Request · Custom Sewing Available',
     colors: [
       { name: 'Camel Tan & Dark Cocoa', hex: '#B88655', secondaryHex: '#3B2219' },
       { name: 'Charcoal Grey & Onyx Black', hex: '#374151', secondaryHex: '#111827' },
@@ -380,7 +376,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     name: 'Sage Olive Cascading Tiered Gathered Maxi Abaya',
     slug: 'sage-olive-cascading-tiered-gathered-maxi-abaya',
     category: 'Gathered Abayas',
-    priceText: 'Price on Request · Call/WhatsApp for Custom Sewing',
+    priceText: 'Price on Request · Custom Sewing Available',
     colors: [
       { name: 'Sage Olive & Pistachio Tier', hex: '#4E6148', secondaryHex: '#859B7D' },
       { name: 'Blush Rose & Dusty Plum', hex: '#B57C89', secondaryHex: '#5C3843' },
@@ -421,7 +417,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     name: 'Smocked Empire Gathered Flared Abaya with Balloon Sleeves',
     slug: 'smocked-empire-gathered-flared-abaya-balloon-sleeves',
     category: 'Gathered Abayas',
-    priceText: 'Price on Request · Call/WhatsApp for Custom Sewing',
+    priceText: 'Price on Request · Custom Sewing Available',
     colors: [
       { name: 'Forest Olive & Bronze Sheen', hex: '#3B4734', secondaryHex: '#8C7355' },
       { name: 'Rich Burgundy & Rose Gold', hex: '#581C28', secondaryHex: '#C98A95' },
@@ -462,7 +458,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     name: 'Sunburst Accordion Pleated Luxury Maxi Abaya',
     slug: 'sunburst-accordion-pleated-luxury-maxi-abaya',
     category: 'Pleated Abayas',
-    priceText: 'Price on Request · Call/WhatsApp for Custom Sewing',
+    priceText: 'Price on Request · Custom Sewing Available',
     colors: [
       { name: 'Dusty Mauve Rose & Rose Gold', hex: '#9E6B7A', secondaryHex: '#D9AAB7' },
       { name: 'Champagne Sand & Ivory', hex: '#C4A882', secondaryHex: '#F7F2EB' },
@@ -503,7 +499,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     name: 'Symmetrical Knife-Pleated Front Flared Modest Abaya',
     slug: 'symmetrical-knife-pleated-front-flared-modest-abaya',
     category: 'Pleated Abayas',
-    priceText: 'Price on Request · Call/WhatsApp for Custom Sewing',
+    priceText: 'Price on Request · Custom Sewing Available',
     colors: [
       { name: 'Rich Mocha & Toffee Pleats', hex: '#4A3528', secondaryHex: '#8A654C' },
       { name: 'Deep Forest & Sage Pleats', hex: '#344030', secondaryHex: '#6E8069' },
@@ -540,11 +536,11 @@ export const INITIAL_PRODUCTS: Product[] = [
     customSewingAvailable: true,
   },
   {
-    id: 'prod-011',
+    id: 'prod-013',
     name: 'Blush Pink Batwing Open Abaya & White Column Dress Set',
     slug: 'blush-pink-batwing-open-abaya-white-column-dress-set',
     category: 'Straight Abayas & Dresses',
-    priceText: 'Price on Request · Call/WhatsApp for Custom Sewing',
+    priceText: 'Price on Request · Custom Sewing Available',
     colors: [
       { name: 'Blush Pink & Ivory White', hex: '#F2C6CE' },
       { name: 'Powder Blue & White', hex: '#B8D5E5' },
@@ -581,11 +577,11 @@ export const INITIAL_PRODUCTS: Product[] = [
     customSewingAvailable: true,
   },
   {
-    id: 'prod-012',
+    id: 'prod-014',
     name: 'Oatmeal Crepe Pleated Palazzo Pants Suit & Draped Kimono Set',
     slug: 'oatmeal-crepe-pleated-palazzo-pants-suit-draped-kimono-set',
     category: 'Capelet & Two-Piece Sets',
-    priceText: 'Price on Request · Call/WhatsApp for Custom Sewing',
+    priceText: 'Price on Request · Custom Sewing Available',
     colors: [
       { name: 'Oatmeal Sand Beige', hex: '#DCD4C6' },
       { name: 'Muted Sage Olive', hex: '#8F9B82' },
@@ -622,11 +618,11 @@ export const INITIAL_PRODUCTS: Product[] = [
     customSewingAvailable: true,
   },
   {
-    id: 'prod-013',
+    id: 'prod-015',
     name: 'Lavender Lilac Bell-Sleeve Maxi Gown with Royal Purple Ruffled Cuffs',
     slug: 'lavender-lilac-bell-sleeve-maxi-gown-royal-purple-ruffles',
     category: 'Abayas',
-    priceText: 'Price on Request · Call/WhatsApp for Custom Sewing',
+    priceText: 'Price on Request · Custom Sewing Available',
     colors: [
       { name: 'Lilac & Royal Purple', hex: '#C4B5FD' },
       { name: 'Blush Pink & Burgundy', hex: '#F9A8D4' },
@@ -663,11 +659,11 @@ export const INITIAL_PRODUCTS: Product[] = [
     customSewingAvailable: true,
   },
   {
-    id: 'prod-014',
+    id: 'prod-016',
     name: 'Chocolate Brown Asymmetric Button Tailored Maxi Coat Abaya & Trousers Set',
     slug: 'chocolate-brown-asymmetric-button-tailored-maxi-coat-abaya-set',
     category: 'Capelet & Two-Piece Sets',
-    priceText: 'Price on Request · Call/WhatsApp for Custom Sewing',
+    priceText: 'Price on Request · Custom Sewing Available',
     colors: [
       { name: 'Dark Chocolate Brown', hex: '#3E2723' },
       { name: 'Midnight Onyx Black', hex: '#18181B' },
@@ -704,11 +700,11 @@ export const INITIAL_PRODUCTS: Product[] = [
     customSewingAvailable: true,
   },
   {
-    id: 'prod-015',
+    id: 'prod-017',
     name: 'Buttercream Yellow Cross-Bodice Fluted Sleeve Sunburst Pleated Maxi Dress',
     slug: 'buttercream-yellow-cross-bodice-fluted-sleeve-sunburst-pleated-maxi-dress',
     category: 'Pleated Abayas',
-    priceText: 'Price on Request · Call/WhatsApp for Custom Sewing',
+    priceText: 'Price on Request · Custom Sewing Available',
     colors: [
       { name: 'Buttercream Pastel Yellow', hex: '#FDF0B0' },
       { name: 'Mint Sage Green', hex: '#C2D8C2' },
@@ -745,11 +741,11 @@ export const INITIAL_PRODUCTS: Product[] = [
     customSewingAvailable: true,
   },
   {
-    id: 'prod-016',
+    id: 'prod-018',
     name: 'Sage Olive Double-Ruffle Center-Button Straight Column Dress',
     slug: 'sage-olive-double-ruffle-center-button-straight-column-dress',
     category: 'Straight Abayas & Dresses',
-    priceText: 'Price on Request · Call/WhatsApp for Custom Sewing',
+    priceText: 'Price on Request · Custom Sewing Available',
     colors: [
       { name: 'Sage Olive Green', hex: '#8A9A7B' },
       { name: 'Taupe Sand', hex: '#B5A895' },
@@ -786,11 +782,11 @@ export const INITIAL_PRODUCTS: Product[] = [
     customSewingAvailable: true,
   },
   {
-    id: 'prod-017',
+    id: 'prod-019',
     name: 'Sky Blue Diagonal Waterfall Ruffle Tiered Flared Maxi Abaya',
     slug: 'sky-blue-diagonal-waterfall-ruffle-tiered-flared-maxi-abaya',
     category: 'Gathered Abayas',
-    priceText: 'Price on Request · Call/WhatsApp for Custom Sewing',
+    priceText: 'Price on Request · Custom Sewing Available',
     colors: [
       { name: 'Sky Powder Blue', hex: '#A4CBE8' },
       { name: 'Blush Rose Pink', hex: '#F2C6CE' },
@@ -827,11 +823,11 @@ export const INITIAL_PRODUCTS: Product[] = [
     customSewingAvailable: true,
   },
   {
-    id: 'prod-018',
+    id: 'prod-020',
     name: 'Burgundy Crimson Ruched Knot Waist Lace Evening Gown with Draped Wing Cape',
     slug: 'burgundy-crimson-ruched-knot-waist-lace-evening-gown-with-draped-wing-cape',
     category: 'Abayas',
-    priceText: 'Price on Request · Call/WhatsApp for Custom Sewing',
+    priceText: 'Price on Request · Custom Sewing Available',
     colors: [
       { name: 'Burgundy Crimson Wine', hex: '#58111A' },
       { name: 'Royal Emerald Green', hex: '#0B3B24' },
@@ -868,11 +864,11 @@ export const INITIAL_PRODUCTS: Product[] = [
     customSewingAvailable: true,
   },
   {
-    id: 'prod-019',
+    id: 'prod-021',
     name: 'Champagne Ribbed Knit Turtleneck Accordion Pleated Maxi Dress',
     slug: 'champagne-ribbed-knit-turtleneck-accordion-pleated-maxi-dress',
     category: 'Pleated Abayas',
-    priceText: 'Price on Request · Call/WhatsApp for Custom Sewing',
+    priceText: 'Price on Request · Custom Sewing Available',
     colors: [
       { name: 'Champagne Oatmeal Beige', hex: '#E6DCB8' },
       { name: 'Soft Mocha Tan', hex: '#9C7A5B' },
@@ -909,11 +905,11 @@ export const INITIAL_PRODUCTS: Product[] = [
     customSewingAvailable: true,
   },
   {
-    id: 'prod-020',
+    id: 'prod-022',
     name: 'Slate Periwinkle Draped Shoulder Capelet Ruched Column Gown',
     slug: 'slate-periwinkle-draped-shoulder-capelet-ruched-column-gown',
     category: 'Capelet & Two-Piece Sets',
-    priceText: 'Price on Request · Call/WhatsApp for Custom Sewing',
+    priceText: 'Price on Request · Custom Sewing Available',
     colors: [
       { name: 'Slate Periwinkle Blue-Grey', hex: '#949BA8' },
       { name: 'Sage Forest Green', hex: '#637059' },
@@ -950,11 +946,11 @@ export const INITIAL_PRODUCTS: Product[] = [
     customSewingAvailable: true,
   },
   {
-    id: 'prod-021',
+    id: 'prod-023',
     name: 'Canary Yellow Floral Jacquard Brocade Waterfall Peplum Gown',
     slug: 'canary-yellow-floral-jacquard-brocade-waterfall-peplum-gown',
     category: 'Gathered Abayas',
-    priceText: 'Price on Request · Call/WhatsApp for Custom Sewing',
+    priceText: 'Price on Request · Custom Sewing Available',
     colors: [
       { name: 'Canary Butter Yellow', hex: '#FCE77D' },
       { name: 'Blush Champagne Rose', hex: '#F3C5BA' },
@@ -991,11 +987,11 @@ export const INITIAL_PRODUCTS: Product[] = [
     customSewingAvailable: true,
   },
   {
-    id: 'prod-022',
+    id: 'prod-024',
     name: 'Cornflower Blue Geometric Lattice Neckline Asymmetric Slit Abaya Coat',
     slug: 'cornflower-blue-geometric-lattice-neckline-asymmetric-slit-abaya-coat',
     category: 'Straight Abayas & Dresses',
-    priceText: 'Price on Request · Call/WhatsApp for Custom Sewing',
+    priceText: 'Price on Request · Custom Sewing Available',
     colors: [
       { name: 'Cornflower Blue & Crisp White', hex: '#7BA4D0' },
       { name: 'Jet Black & Pearl White', hex: '#1C1917' },
@@ -1032,11 +1028,11 @@ export const INITIAL_PRODUCTS: Product[] = [
     customSewingAvailable: true,
   },
   {
-    id: 'prod-023',
+    id: 'prod-025',
     name: 'Moss Olive Ruched Wrap Tunic with Capelet Drapes & White Palazzo Set',
     slug: 'moss-olive-ruched-wrap-tunic-capelet-drapes-white-palazzo-set',
     category: 'Capelet & Two-Piece Sets',
-    priceText: 'Price on Request · Call/WhatsApp for Custom Sewing',
+    priceText: 'Price on Request · Custom Sewing Available',
     colors: [
       { name: 'Moss Olive & Pure White', hex: '#586A50' },
       { name: 'Espresso & Vanilla Cream', hex: '#3B2F2F' },
@@ -1073,11 +1069,11 @@ export const INITIAL_PRODUCTS: Product[] = [
     customSewingAvailable: true,
   },
   {
-    id: 'prod-024',
+    id: 'prod-026',
     name: 'Dark Espresso Multi-Tiered Ruffle Sweetheart Flared Maxi Dress',
     slug: 'dark-espresso-multi-tiered-ruffle-sweetheart-flared-maxi-dress',
     category: 'Gathered Abayas',
-    priceText: 'Price on Request · Call/WhatsApp for Custom Sewing',
+    priceText: 'Price on Request · Custom Sewing Available',
     colors: [
       { name: 'Dark Espresso Brown', hex: '#34251F' },
       { name: 'Burgundy Crimson', hex: '#58111A' },

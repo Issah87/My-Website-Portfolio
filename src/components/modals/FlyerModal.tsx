@@ -1,13 +1,14 @@
 import React from 'react';
-import { X, Phone, MapPin, MessageCircle, Scissors, Check, Sparkles } from 'lucide-react';
+import { X, MapPin, MessageSquare, Scissors, Mail, Sparkles, ShoppingBag } from 'lucide-react';
 import { useShop } from '../../context/ShopContext';
+import { SHOP_TARGET_EMAIL } from '../../utils/sendWhatsAppOrder';
 import tealImg from '../../assets/images/abaya_teal_beige_capelet_1790461867481.jpg';
 import roseImg from '../../assets/images/abaya_rose_capelet_1790461877699.jpg';
 import oliveImg from '../../assets/images/abaya_olive_pleated_1790461886790.jpg';
 import butterflyImg from '../../assets/images/abaya_butterfly_cream_1790461896450.jpg';
 
 export const FlyerModal: React.FC = () => {
-  const { isFlyerModalOpen, setIsFlyerModalOpen, openWhatsAppModal } = useShop();
+  const { isFlyerModalOpen, setIsFlyerModalOpen, openInquiryModal, setActiveTab } = useShop();
 
   if (!isFlyerModalOpen) return null;
 
@@ -57,22 +58,19 @@ export const FlyerModal: React.FC = () => {
           <div className="bg-[#3D061A] p-4 border border-pink-500/30 rounded space-y-3">
             <div>
               <span className="text-[10px] font-bold uppercase tracking-wider text-amber-300 flex items-center gap-1">
-                <Phone className="w-3.5 h-3.5" />
-                <span>DIRECT CALL & ORDERS:</span>
+                <Mail className="w-3.5 h-3.5" />
+                <span>OFFICIAL INQUIRIES & ORDERS:</span>
               </span>
-              <div className="mt-1 space-y-1 font-mono text-xs font-bold text-white">
-                <a href="https://wa.me/233501273875" target="_blank" rel="noopener noreferrer" className="block text-emerald-300 hover:text-emerald-200">
-                  📱 WhatsApp: 050 127 3875
-                </a>
-                <a href="tel:0242842090" className="block hover:text-amber-300 transition-colors">
-                  📞 024 284 2090
-                </a>
-                <a href="tel:0264460744" className="block hover:text-amber-300 transition-colors">
-                  📞 026 446 0744
-                </a>
-                <a href="mailto:issahn712@gmail.com" className="block text-amber-200 hover:underline font-sans text-[11px] pt-1">
-                  ✉️ issahn712@gmail.com
-                </a>
+              <div className="mt-2 space-y-1.5 text-xs text-white">
+                <div className="p-2 bg-white/10 rounded border border-pink-500/30">
+                  <span className="block text-[10px] text-pink-300 uppercase font-semibold">Official Boutique Email:</span>
+                  <a href={`mailto:${SHOP_TARGET_EMAIL}`} className="block text-amber-200 hover:underline font-mono text-xs font-bold mt-0.5">
+                    {SHOP_TARGET_EMAIL}
+                  </a>
+                </div>
+                <p className="text-[11px] text-pink-200 pt-0.5">
+                  Direct communication between customer and owner happens securely on the website!
+                </p>
               </div>
             </div>
 
@@ -107,21 +105,24 @@ export const FlyerModal: React.FC = () => {
           <button
             onClick={() => {
               setIsFlyerModalOpen(false);
-              openWhatsAppModal();
+              openInquiryModal();
             }}
-            className="flex items-center justify-center gap-2 px-6 py-3 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs uppercase tracking-wider rounded transition-colors shadow-md cursor-pointer"
+            className="flex items-center justify-center gap-2 px-6 py-3 bg-amber-400 hover:bg-amber-300 text-[#43091D] font-bold text-xs uppercase tracking-wider rounded transition-colors shadow-md cursor-pointer"
           >
-            <MessageCircle className="w-4 h-4" />
-            <span>Chat Directly on WhatsApp (050 127 3875)</span>
+            <MessageSquare className="w-4 h-4" />
+            <span>Inquire on Website</span>
           </button>
           
-          <a
-            href="tel:0501273875"
-            className="flex items-center justify-center gap-2 px-6 py-3 bg-amber-400 hover:bg-amber-300 text-[#43091D] font-bold text-xs uppercase tracking-wider rounded transition-colors shadow-md"
+          <button
+            onClick={() => {
+              setIsFlyerModalOpen(false);
+              setActiveTab('shop');
+            }}
+            className="flex items-center justify-center gap-2 px-6 py-3 bg-white/20 hover:bg-white/30 text-white font-bold text-xs uppercase tracking-wider rounded transition-colors shadow-md cursor-pointer"
           >
-            <Phone className="w-4 h-4" />
-            <span>Call Shop: 050 127 3875</span>
-          </a>
+            <ShoppingBag className="w-4 h-4" />
+            <span>Browse All 26 Dresses</span>
+          </button>
         </div>
 
       </div>

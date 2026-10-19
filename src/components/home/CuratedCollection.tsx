@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { ArrowRight, Phone, MessageCircle } from 'lucide-react';
+import { ArrowRight, ShoppingBag } from 'lucide-react';
 import { useShop } from '../../context/ShopContext';
 import { ProductCard } from '../shop/ProductCard';
 import { ModestCategory } from '../../types';
 
 export const CuratedCollection: React.FC = () => {
-  const { products, setActiveTab, openWhatsAppModal } = useShop();
+  const { products, setActiveTab } = useShop();
   const [activeFilter, setActiveFilter] = useState<ModestCategory>('All');
 
   const filteredList = activeFilter === 'All' 
@@ -26,17 +26,20 @@ export const CuratedCollection: React.FC = () => {
               Straight, Gathered & Pleated Abaya Styles
             </h2>
             <p className="text-xs sm:text-sm text-stone-600 mt-2 max-w-xl font-light">
-              Choose your favorite cut, click any color shade on the card to pick your color, and tap <strong>Inquire</strong> to reach our Oforikrom seamstresses directly with your chosen dress & color!
+              Choose your favorite cut, click any color shade on the card to pick your color, and tap <strong>Buy / Order</strong> to order directly on the website and send details to the boutique owner!
             </p>
           </div>
 
           <div className="flex items-center gap-3">
             <button
-              onClick={() => openWhatsAppModal()}
-              className="inline-flex items-center gap-1.5 px-4 py-2 bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-semibold rounded cursor-pointer transition-colors shadow-xs"
+              onClick={() => {
+                setActiveTab('my-orders');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+              className="inline-flex items-center gap-1.5 px-4 py-2 bg-[#5B0F2A] hover:bg-[#43091D] text-white text-xs font-semibold rounded cursor-pointer transition-colors shadow-xs"
             >
-              <MessageCircle className="w-3.5 h-3.5" />
-              <span>Ask for Prices on WhatsApp</span>
+              <ShoppingBag className="w-3.5 h-3.5" />
+              <span>My Ordered Dresses</span>
             </button>
           </div>
         </div>
@@ -65,7 +68,7 @@ export const CuratedCollection: React.FC = () => {
           ))}
         </div>
 
-        {/* Bottom Banner with Phone numbers */}
+        {/* Bottom Banner without Phone numbers */}
         <div className="mt-16 p-6 sm:p-8 bg-[#FAF9F5] border border-stone-200 text-center space-y-4 max-w-3xl mx-auto">
           <span className="text-xs uppercase tracking-widest text-stone-500 font-bold block">
             Custom Measurement & Fast Sewing
@@ -74,37 +77,31 @@ export const CuratedCollection: React.FC = () => {
             Need Any of These Dresses in Your Custom Measurements?
           </h3>
           <p className="text-xs text-stone-600 max-w-md mx-auto leading-relaxed">
-            Drop by our shop in Oforikrom, Accra Town Behind Central Mosque, or send your measurements to us on WhatsApp / Phone. We sew promptly and deliver throughout Ghana.
+            Drop by our shop in Oforikrom, Accra Town Behind Central Mosque, or send your measurements to us on the website. We sew promptly and deliver throughout Ghana.
           </p>
 
           <div className="pt-2 flex flex-wrap items-center justify-center gap-3 text-xs font-semibold">
             <button
-              onClick={() => openWhatsAppModal()}
-              className="inline-flex items-center gap-1.5 px-4 py-2.5 bg-emerald-700 hover:bg-emerald-800 text-white rounded cursor-pointer transition-colors shadow-xs"
+              onClick={() => {
+                setActiveTab('shop');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+              className="inline-flex items-center gap-1.5 px-4 py-2.5 bg-[#5B0F2A] hover:bg-[#43091D] text-white rounded cursor-pointer transition-colors shadow-xs"
             >
-              <MessageCircle className="w-3.5 h-3.5" />
-              <span>WhatsApp: 050 127 3875</span>
+              <ShoppingBag className="w-3.5 h-3.5" />
+              <span>Browse All Dresses & Buy</span>
+            </button>
+
+            <button
+              onClick={() => setActiveTab('my-orders')}
+              className="inline-flex items-center gap-1.5 px-4 py-2.5 bg-stone-800 hover:bg-stone-900 text-white rounded cursor-pointer transition-colors"
+            >
+              <span>View My Ordered Dresses</span>
             </button>
 
             <a
-              href="tel:0501273875"
-              className="inline-flex items-center gap-1.5 px-4 py-2.5 bg-[#5B0F2A] hover:bg-[#43091D] text-white rounded cursor-pointer transition-colors"
-            >
-              <Phone className="w-3.5 h-3.5" />
-              <span>Call: 050 127 3875</span>
-            </a>
-
-            <a
-              href="tel:0242842090"
-              className="inline-flex items-center gap-1.5 px-4 py-2.5 bg-stone-800 hover:bg-stone-900 text-white rounded cursor-pointer transition-colors"
-            >
-              <Phone className="w-3.5 h-3.5" />
-              <span>Call: 024 284 2090</span>
-            </a>
-
-            <a
               href="mailto:issahn712@gmail.com"
-              className="inline-flex items-center gap-1.5 px-4 py-2.5 bg-white border border-stone-300 text-stone-800 hover:bg-stone-50 rounded cursor-pointer transition-colors"
+              className="inline-flex items-center gap-1.5 px-4 py-2.5 bg-white border border-stone-300 text-stone-800 hover:bg-stone-50 rounded cursor-pointer transition-colors font-mono"
             >
               <span>Email: issahn712@gmail.com</span>
             </a>

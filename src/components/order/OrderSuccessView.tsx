@@ -1,31 +1,27 @@
 import React, { useState } from 'react';
 import { 
-  Phone, 
-  MessageCircle, 
-  MapPin, 
   Scissors, 
   ArrowRight,
-  Send,
-  Mail,
-  Check,
-  Copy,
-  ExternalLink 
+  Mail, 
+  Check, 
+  Copy, 
+  ExternalLink,
+  ShoppingBag,
+  MessageSquare,
+  MapPin
 } from 'lucide-react';
 import { useShop } from '../../context/ShopContext';
 import { ColorizedDressImage } from '../shop/ColorizedDressImage';
 import { 
-  openWhatsAppOrder, 
   openEmailOrder, 
   createOrderEmailUrl, 
   createGmailWebUrl, 
   formatBookingSummary,
-  PRIMARY_WHATSAPP_NUMBER,
-  SECONDARY_WHATSAPP_NUMBER,
   SHOP_TARGET_EMAIL
 } from '../../utils/sendWhatsAppOrder';
 
 export const OrderSuccessView: React.FC = () => {
-  const { lastCreatedOrder, setActiveTab, settings, getAbsoluteImageUrl } = useShop();
+  const { lastCreatedOrder, setActiveTab, setCurrentCustomerEmail } = useShop();
   const [copied, setCopied] = useState(false);
 
   if (!lastCreatedOrder) {
@@ -34,7 +30,7 @@ export const OrderSuccessView: React.FC = () => {
         <h2 className="font-serif-brand text-2xl text-stone-900 font-bold">No recent booking found</h2>
         <button
           onClick={() => setActiveTab('shop')}
-          className="mt-4 px-6 py-2 bg-[#5B0F2A] text-white text-xs font-bold uppercase rounded"
+          className="mt-4 px-6 py-2 bg-[#5B0F2A] text-white text-xs font-bold uppercase rounded cursor-pointer"
         >
           View All Dresses
         </button>
@@ -50,14 +46,6 @@ export const OrderSuccessView: React.FC = () => {
     items: order.items,
     notes: order.notes,
   });
-
-  const handleSendToPrimaryWhatsApp = () => {
-    openWhatsAppOrder(bookingSummaryText, PRIMARY_WHATSAPP_NUMBER);
-  };
-
-  const handleSendToSecondaryWhatsApp = () => {
-    openWhatsAppOrder(bookingSummaryText, SECONDARY_WHATSAPP_NUMBER);
-  };
 
   const handleSendEmail = () => {
     openEmailOrder({
@@ -91,7 +79,7 @@ export const OrderSuccessView: React.FC = () => {
           </div>
 
           <span className="text-xs uppercase tracking-widest text-[#5B0F2A] font-bold block">
-            Booking Inquiry Transmitted
+            Dress Order Transmitted to Atelier
           </span>
 
           <h1 className="font-serif-brand text-3xl sm:text-4xl text-stone-900 font-bold">
@@ -99,31 +87,21 @@ export const OrderSuccessView: React.FC = () => {
           </h1>
 
           <p className="text-xs sm:text-sm text-stone-600 max-w-lg mx-auto leading-relaxed">
-            Your dress specifications have been compiled for our workshop at <strong>Oforikrom, Accra Town Behind Central Mosque</strong>. Our team will contact your Ghana phone (<strong>{order.customer.phone}</strong>) with pricing and delivery details.
+            Your dress specifications have been registered for our workshop at <strong>Oforikrom, Accra Town Behind Central Mosque</strong>. Your order is now viewable in your personal orders dashboard.
           </p>
 
-          {/* Direct Dispatch Destination Indicators */}
-          <div className="p-4 bg-emerald-50/70 border border-emerald-200 rounded-lg text-left text-xs space-y-2">
-            <span className="font-bold text-emerald-900 block flex items-center gap-1.5">
-              <Check className="w-4 h-4 text-emerald-600" />
-              Direct Booking Dispatch Addresses:
+          {/* Direct Communication on Website Banner */}
+          <div className="p-4 bg-pink-50/70 border border-pink-200 rounded-lg text-left text-xs space-y-2">
+            <span className="font-bold text-[#5B0F2A] flex items-center gap-1.5">
+              <MessageSquare className="w-4 h-4 text-[#5B0F2A]" />
+              On-Website Tailoring & Communication:
             </span>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-[11px] text-stone-700">
-              <div className="bg-white p-2.5 rounded border border-emerald-200 flex items-center gap-2">
-                <MessageCircle className="w-4 h-4 text-emerald-600 shrink-0" />
-                <div>
-                  <span className="text-stone-500 block text-[10px] uppercase font-semibold">Primary WhatsApp</span>
-                  <strong className="text-stone-900 font-mono text-xs">050 127 3875</strong>
-                </div>
-              </div>
-
-              <div className="bg-white p-2.5 rounded border border-emerald-200 flex items-center gap-2">
-                <Mail className="w-4 h-4 text-[#5B0F2A] shrink-0" />
-                <div>
-                  <span className="text-stone-500 block text-[10px] uppercase font-semibold">Target Order Email</span>
-                  <strong className="text-stone-900 font-mono text-xs">{SHOP_TARGET_EMAIL}</strong>
-                </div>
-              </div>
+            <p className="text-[11px] text-stone-700 leading-relaxed">
+              You and the boutique owner can communicate directly on the website regarding your order, fabric choices, and custom sizing. Only your orders are visible to your account.
+            </p>
+            <div className="pt-1 flex items-center gap-2 font-mono text-[11px] text-stone-800">
+              <Mail className="w-3.5 h-3.5 text-[#5B0F2A]" />
+              <span>Official Boutique Email: <strong>{SHOP_TARGET_EMAIL}</strong></span>
             </div>
           </div>
 
@@ -135,33 +113,39 @@ export const OrderSuccessView: React.FC = () => {
             </div>
 
             <div className="bg-stone-50 border border-stone-200 px-4 py-2 rounded">
-              <span className="text-stone-500 block text-[10px] uppercase font-semibold">Location</span>
+              <span className="text-stone-500 block text-[10px] uppercase font-semibold">Delivery City</span>
               <strong className="text-stone-900 font-medium">{order.customer.townCity}</strong>
             </div>
 
             <div className="bg-stone-50 border border-stone-200 px-4 py-2 rounded">
-              <span className="text-stone-500 block text-[10px] uppercase font-semibold">Tailor Status</span>
+              <span className="text-stone-500 block text-[10px] uppercase font-semibold">Tailoring Status</span>
               <strong className="text-[#5B0F2A] font-bold">{order.orderStatus}</strong>
             </div>
           </div>
 
-          {/* Direct Actions: WhatsApp & Email Buttons */}
+          {/* Direct Actions: View in My Orders & Send to Email */}
           <div className="pt-4 space-y-2.5">
             <div className="flex flex-col sm:flex-row items-center justify-center gap-2.5">
               <button
-                onClick={handleSendToPrimaryWhatsApp}
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-3 bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-bold uppercase tracking-wider rounded transition-colors shadow-xs cursor-pointer"
+                onClick={() => {
+                  if (order.customer.email) {
+                    setCurrentCustomerEmail(order.customer.email);
+                  }
+                  setActiveTab('my-orders');
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }}
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 bg-[#5B0F2A] hover:bg-[#43091D] text-white text-xs font-bold uppercase tracking-wider rounded transition-colors shadow-xs cursor-pointer"
               >
-                <MessageCircle className="w-4 h-4" />
-                <span>Send via WhatsApp (050 127 3875)</span>
+                <ShoppingBag className="w-4 h-4" />
+                <span>View What I Ordered in My Orders</span>
               </button>
 
               <button
                 onClick={handleSendEmail}
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-3 bg-[#5B0F2A] hover:bg-[#43091D] text-white text-xs font-bold uppercase tracking-wider rounded transition-colors shadow-xs cursor-pointer"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-3 bg-stone-800 hover:bg-stone-900 text-white text-xs font-bold uppercase tracking-wider rounded transition-colors shadow-xs cursor-pointer"
               >
                 <Mail className="w-4 h-4" />
-                <span>Send to Email ({SHOP_TARGET_EMAIL})</span>
+                <span>Send Copy to Boutique Email</span>
               </button>
             </div>
 
@@ -173,32 +157,16 @@ export const OrderSuccessView: React.FC = () => {
                 className="inline-flex items-center gap-1.5 px-3 py-2 bg-stone-100 hover:bg-stone-200 text-stone-800 rounded font-semibold text-[11px] border border-stone-300 transition-colors"
               >
                 <ExternalLink className="w-3.5 h-3.5 text-rose-700" />
-                <span>Open in Gmail Web</span>
+                <span>Open in Gmail</span>
               </a>
-
-              <button
-                onClick={handleSendToSecondaryWhatsApp}
-                className="inline-flex items-center gap-1.5 px-3 py-2 bg-stone-100 hover:bg-stone-200 text-stone-800 rounded font-semibold text-[11px] border border-stone-300 transition-colors cursor-pointer"
-              >
-                <MessageCircle className="w-3.5 h-3.5 text-stone-600" />
-                <span>WhatsApp 024 284 2090</span>
-              </button>
 
               <button
                 onClick={handleCopy}
                 className="inline-flex items-center gap-1.5 px-3 py-2 bg-stone-100 hover:bg-stone-200 text-stone-800 rounded font-semibold text-[11px] border border-stone-300 transition-colors cursor-pointer"
               >
                 <Copy className="w-3.5 h-3.5 text-stone-600" />
-                <span>{copied ? 'Copied to Clipboard!' : 'Copy Booking Text'}</span>
+                <span>{copied ? 'Copied to Clipboard!' : 'Copy Order Text'}</span>
               </button>
-
-              <a
-                href="tel:0501273875"
-                className="inline-flex items-center gap-1.5 px-3 py-2 bg-stone-100 hover:bg-stone-200 text-stone-800 rounded font-semibold text-[11px] border border-stone-300 transition-colors"
-              >
-                <Phone className="w-3.5 h-3.5 text-[#5B0F2A]" />
-                <span>Call 050 127 3875</span>
-              </a>
             </div>
           </div>
         </div>
@@ -237,7 +205,7 @@ export const OrderSuccessView: React.FC = () => {
                       </span>
                     </p>
                     <p className="text-[11px] text-stone-500 mt-0.5">
-                      Quantity: {item.quantity} · Price: <strong className="text-[#5B0F2A]">Confirmed via WhatsApp</strong>
+                      Quantity: {item.quantity} · Custom Bespoke Sewing
                     </p>
                   </div>
                 </div>
@@ -255,7 +223,7 @@ export const OrderSuccessView: React.FC = () => {
               Shop Location: <strong>Accra Town Behind the Central Mosque, Oforikrom, Kumasi</strong>.
             </p>
             <p className="text-stone-600">
-              For deliveries outside Kumasi (Greater Accra, Tamale, Takoradi, etc.), we send via VIP / OA / Imperial Express bus parcels or direct dispatch courier to your doorstep.
+              For deliveries outside Kumasi (Greater Accra, Tamale, Takoradi, etc.), we send via VIP / OA / Imperial Express bus parcels or direct courier dispatch.
             </p>
           </div>
 

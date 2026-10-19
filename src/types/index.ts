@@ -25,7 +25,7 @@ export interface Product {
   name: string;
   slug: string;
   category: ModestCategory;
-  priceText: string; // e.g. "Price on Request / Contact via WhatsApp"
+  priceText: string; // e.g. "Price on Request · Custom Sewing Available"
   colors: ProductColor[];
   sizes: AbayaLength[];
   inventory: SizeInventory[];
@@ -52,17 +52,24 @@ export interface CartItem {
   customNotes?: string;
 }
 
-export type PaymentMethod = 'momo' | 'cod' | 'whatsapp';
+export type PaymentMethod = 'momo' | 'cod' | 'order_direct' | 'direct_inquiry';
+
+export interface OrderMessage {
+  id: string;
+  sender: 'customer' | 'owner';
+  senderName: string;
+  text: string;
+  createdAt: string;
+}
 
 export interface OrderCustomer {
   fullName: string;
-  phone: string;
-  altPhone?: string;
-  email?: string;
+  email: string;
+  phone?: string;
   region: string; // Greater Accra, Ashanti, etc.
   townCity: string; // Oforikrom, Kumasi, Accra, Madina, etc.
   landmarkAddress: string;
-  preferredContact: 'WhatsApp' | 'Phone Call' | 'Email';
+  preferredContact?: 'Email' | 'On-Website Portal';
 }
 
 export interface Order {
@@ -72,10 +79,26 @@ export interface Order {
   items: CartItem[];
   paymentMethod: PaymentMethod;
   paymentStatus: 'Pending Verification' | 'MoMo Confirmed' | 'Pay on Pickup/Delivery';
-  orderStatus: 'Inquiry Received' | 'Sewing in Progress' | 'Ready for Pickup / Dispatch' | 'Delivered';
+  orderStatus: 'Order Confirmed' | 'Fabric Sourced' | 'Sewing in Progress' | 'Ready for Pickup / Dispatch' | 'Delivered' | 'Inquiry Received';
   trackingNumber: string;
   createdAt: string;
   notes?: string;
+  messages?: OrderMessage[];
+}
+
+export interface WebsiteInquiry {
+  id: string;
+  customerName: string;
+  customerEmail: string;
+  subject?: string;
+  productName?: string;
+  colorName?: string;
+  length?: string;
+  message: string;
+  createdAt: string;
+  status: 'New' | 'Replied';
+  ownerReply?: string;
+  repliedAt?: string;
 }
 
 export interface StoreSettings {
@@ -85,9 +108,5 @@ export interface StoreSettings {
   location: string;
   addressDetails: string;
   email: string; // issahn712@gmail.com
-  phones: string[];
-  ownerWhatsApp: string; // 233501273875 (050 127 3875)
-  secondaryWhatsApp: string; // 233242842090 (024 284 2090)
-  altPhone: string; // 026 446 0744
   services: string[];
 }

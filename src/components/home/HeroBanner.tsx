@@ -1,10 +1,10 @@
 import React from 'react';
-import { ArrowRight, Phone, MessageCircle, MapPin, Scissors, Image as ImageIcon } from 'lucide-react';
+import { ArrowRight, ShoppingBag, MapPin, Scissors, Image as ImageIcon } from 'lucide-react';
 import { useShop } from '../../context/ShopContext';
 import tealImg from '../../assets/images/abaya_teal_beige_capelet_1790461867481.jpg';
 
 export const HeroBanner: React.FC = () => {
-  const { setActiveTab, setFilters, openWhatsAppModal, setIsFlyerModalOpen } = useShop();
+  const { setActiveTab, setFilters, setIsFlyerModalOpen } = useShop();
 
   const handleExploreAll = () => {
     setFilters(prev => ({ ...prev, category: 'All' }));
@@ -53,20 +53,14 @@ export const HeroBanner: React.FC = () => {
           <div className="p-3.5 bg-black/40 border border-amber-300/40 rounded-sm text-xs space-y-1.5 max-w-lg">
             <div className="flex items-center gap-2 text-amber-300 font-medium">
               <MapPin className="w-4 h-4 shrink-0" />
-              <span>Oforikrom, Accra Town Behind the Central Mosque</span>
+              <span>Oforikrom, Accra Town Behind the Central Mosque (Kumasi / Ghana)</span>
             </div>
-            <div className="flex flex-wrap items-center gap-3 font-mono font-semibold text-white pt-1">
-              <a href="https://wa.me/233501273875" target="_blank" rel="noopener noreferrer" className="text-emerald-300 hover:text-emerald-200 transition-colors font-bold">
-                📱 050 127 3875 (WhatsApp)
+            <div className="flex flex-wrap items-center gap-3 text-white pt-1">
+              <a href="mailto:issahn712@gmail.com" className="text-amber-200 hover:underline font-mono text-xs flex items-center gap-1 font-bold">
+                <span>Official Email: issahn712@gmail.com</span>
               </a>
-              <span>·</span>
-              <a href="tel:0242842090" className="hover:text-amber-300 transition-colors">
-                📞 024 284 2090
-              </a>
-              <span>·</span>
-              <a href="mailto:issahn712@gmail.com" className="text-amber-200 hover:underline font-sans text-[11px]">
-                ✉️ issahn712@gmail.com
-              </a>
+              <span className="text-amber-300/50">·</span>
+              <span className="text-pink-200 text-[11px]">Bespoke Sizing & Nationwide Bus Dispatch</span>
             </div>
           </div>
 
@@ -81,11 +75,14 @@ export const HeroBanner: React.FC = () => {
             </button>
 
             <button
-              onClick={() => openWhatsAppModal()}
-              className="inline-flex items-center justify-center gap-2 px-5 py-3.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs uppercase tracking-wider transition-colors shadow-sm cursor-pointer whitespace-nowrap"
+              onClick={() => {
+                setActiveTab('my-orders');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+              className="inline-flex items-center justify-center gap-2 px-5 py-3.5 bg-amber-400 hover:bg-amber-300 text-[#43091D] font-bold text-xs uppercase tracking-wider transition-colors shadow-sm cursor-pointer whitespace-nowrap"
             >
-              <MessageCircle className="w-4 h-4" />
-              <span>Inquire on WhatsApp</span>
+              <ShoppingBag className="w-4 h-4" />
+              <span>My Ordered Dresses</span>
             </button>
 
             <button

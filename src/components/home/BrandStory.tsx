@@ -67,10 +67,10 @@ export const BrandStory: React.FC = () => {
             <div className="pt-2 flex flex-wrap items-center gap-3">
               <button
                 onClick={() => openWhatsAppModal()}
-                className="inline-flex items-center gap-2 px-5 py-3 bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-bold uppercase tracking-wider transition-colors shadow-xs cursor-pointer"
+                className="inline-flex items-center gap-2 px-5 py-3 bg-[#5B0F2A] hover:bg-[#43091D] text-white text-xs font-bold uppercase tracking-wider transition-colors shadow-xs cursor-pointer"
               >
                 <MessageCircle className="w-4 h-4" />
-                <span>Chat on WhatsApp (050 127 3875)</span>
+                <span>Inquire on Website</span>
               </button>
 
               <button

@@ -1,13 +1,8 @@
 import React from 'react';
-import { X, Trash2, ArrowRight, ShoppingBag, Phone, MessageCircle, MapPin, Scissors, Send, Mail } from 'lucide-react';
+import { X, Trash2, ArrowRight, ShoppingBag, MapPin, Scissors, Send, Mail, MessageSquare } from 'lucide-react';
 import { useShop } from '../../context/ShopContext';
 import { ColorizedDressImage } from '../shop/ColorizedDressImage';
-import { 
-  openWhatsAppOrder, 
-  PRIMARY_WHATSAPP_NUMBER, 
-  SECONDARY_WHATSAPP_NUMBER, 
-  SHOP_TARGET_EMAIL 
-} from '../../utils/sendWhatsAppOrder';
+import { SHOP_TARGET_EMAIL } from '../../utils/sendWhatsAppOrder';
 
 export const CartDrawer: React.FC = () => {
   const { 
@@ -18,8 +13,7 @@ export const CartDrawer: React.FC = () => {
     removeFromCart, 
     clearCart,
     setActiveTab, 
-    getAbsoluteImageUrl,
-    settings 
+    openInquiryModal 
   } = useShop();
 
   if (!isCartDrawerOpen) return null;
@@ -28,21 +22,6 @@ export const CartDrawer: React.FC = () => {
     setIsCartDrawerOpen(false);
     setActiveTab('checkout');
     window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
-  const handleWhatsAppAll = () => {
-    let orderSummary = `🌟 AL-IKHLAS FASHION CENTER · DRESS ORDER / INQUIRY 🌟\n` +
-      `Shop Location: Oforikrom, Accra Town Behind Central Mosque\n` +
-      `Direct Contacts: 050 127 3875 / 024 284 2090 | Email: ${SHOP_TARGET_EMAIL}\n\n` +
-      `Hello Al-Ikhlas! I want to BUY / INQUIRE about the following dresses from my selection:\n\n`;
-    cart.forEach((item, idx) => {
-      orderSummary += `${idx + 1}. 👗 "${item.name}"\n   • Chosen Color: ${item.color.name}\n   • Selected Length: ${item.size}\n   • Quantity: ${item.quantity}\n`;
-      if (item.customNotes) orderSummary += `   • Custom Notes: ${item.customNotes}\n`;
-      orderSummary += '\n';
-    });
-    orderSummary += `Please let me know the total pricing quote, MoMo payment instructions, and delivery/pickup schedule in Ghana. Thank you!`;
-    
-    openWhatsAppOrder(orderSummary, PRIMARY_WHATSAPP_NUMBER);
   };
 
   return (
@@ -60,8 +39,8 @@ export const CartDrawer: React.FC = () => {
         <div className="p-5 border-b border-stone-200 flex items-center justify-between bg-[#5B0F2A] text-white">
           <div className="flex items-center gap-2">
             <ShoppingBag className="w-5 h-5 text-amber-300" />
-            <span className="font-serif-brand text-xl font-bold">Selected Dresses for Inquiry</span>
-            <span className="text-xs bg-white/20 px-2 py-0.5 rounded-full font-mono">
+            <h3 className="font-serif-brand text-lg font-bold">Selected Dresses</h3>
+            <span className="bg-white/20 text-white text-xs px-2 py-0.5 rounded-full font-mono">
               {cart.length}
             </span>
           </div>
@@ -75,15 +54,15 @@ export const CartDrawer: React.FC = () => {
           </button>
         </div>
 
-        {/* Location & hotline banner */}
+        {/* Location banner */}
         <div className="p-3 bg-pink-50 border-b border-pink-200 text-xs text-[#5B0F2A] flex items-center justify-between">
           <span className="flex items-center gap-1 font-semibold truncate">
             <MapPin className="w-3.5 h-3.5 shrink-0" />
-            <span className="truncate">Oforikrom, Behind Central Mosque</span>
+            <span className="truncate">Oforikrom, Behind Central Mosque, Kumasi</span>
           </span>
-          <a href="tel:0501273875" className="font-mono font-bold hover:underline shrink-0 text-emerald-800">
-            050 127 3875
-          </a>
+          <span className="font-mono text-[11px] font-bold text-stone-700">
+            {SHOP_TARGET_EMAIL}
+          </span>
         </div>
 
         {/* Itemized List */}
@@ -93,7 +72,7 @@ export const CartDrawer: React.FC = () => {
               <Scissors className="w-12 h-12 text-stone-300 mx-auto stroke-1" />
               <div className="font-serif-brand text-xl text-stone-800 font-bold">No dresses selected yet</div>
               <p className="text-xs text-stone-500 max-w-xs mx-auto">
-                Explore our straight, gathered, and pleated dresses, choose your length (50" to 60") and chosen shade, and request custom sewing.
+                Explore our modest dress collection, choose your length and color, and order your custom tailored piece.
               </p>
               <button
                 onClick={() => {
@@ -149,22 +128,14 @@ export const CartDrawer: React.FC = () => {
 
                       <button
                         onClick={() => {
-                          const msg = `🌟 AL-IKHLAS FASHION CENTER · DRESS ORDER / INQUIRY 🌟\n\n` +
-                            `Hello! I want to BUY / INQUIRE about this dress from my bag:\n` +
-                            `• Dress: "${item.name}"\n` +
-                            `• Chosen Color: ${item.color.name}\n` +
-                            `• Length: ${item.size}\n` +
-                            `• Quantity: ${item.quantity}\n` +
-                            (item.customNotes ? `• Note: ${item.customNotes}\n` : '') +
-                            `\nPlease send the price quote and sewing turnaround schedule. Thank you!`;
-
-                          openWhatsAppOrder(msg, PRIMARY_WHATSAPP_NUMBER);
+                          setIsCartDrawerOpen(false);
+                          openInquiryModal(undefined, item.color, item.size, 'buy');
                         }}
-                        className="inline-flex items-center gap-1 text-[11px] text-emerald-700 hover:text-emerald-800 font-semibold cursor-pointer hover:underline"
-                        title="Inquire about this dress directly on WhatsApp"
+                        className="inline-flex items-center gap-1 text-[11px] text-[#5B0F2A] hover:underline font-semibold cursor-pointer"
+                        title="Buy this dress individually"
                       >
-                        <MessageCircle className="w-3 h-3" />
-                        <span>Inquire on WhatsApp (050 127 3875)</span>
+                        <ShoppingBag className="w-3 h-3" />
+                        <span>Order Single Item</span>
                       </button>
                     </div>
                   </div>
@@ -205,26 +176,17 @@ export const CartDrawer: React.FC = () => {
         {cart.length > 0 && (
           <div className="p-5 border-t border-stone-200 bg-stone-50 space-y-3">
             <div className="flex items-center justify-between text-xs">
-              <span className="text-stone-500 font-medium">Pricing</span>
-              <span className="font-bold text-[#5B0F2A]">Confirmed via WhatsApp/Phone</span>
+              <span className="text-stone-500 font-medium">Bespoke Tailoring</span>
+              <span className="font-bold text-[#5B0F2A]">Bespoke Made-to-Measure</span>
             </div>
 
             <div className="space-y-2">
-              {/* WhatsApp Inquire/Buy All */}
-              <button
-                onClick={handleWhatsAppAll}
-                className="w-full py-3 bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs uppercase tracking-wider rounded flex items-center justify-center gap-2 cursor-pointer transition-colors shadow-xs"
-              >
-                <Send className="w-4 h-4" />
-                <span>Send All ({cart.length}) Items to WhatsApp 050 127 3875</span>
-              </button>
-
               {/* Proceed to Full Ghana Checkout Form */}
               <button
                 onClick={handleProceedToGhanaCheckout}
-                className="w-full py-3 bg-[#5B0F2A] hover:bg-[#43091D] text-white font-bold text-xs uppercase tracking-wider rounded flex items-center justify-center gap-2 cursor-pointer transition-colors shadow-xs"
+                className="w-full py-3.5 bg-[#5B0F2A] hover:bg-[#43091D] text-white font-bold text-xs uppercase tracking-wider rounded flex items-center justify-center gap-2 cursor-pointer transition-colors shadow-xs"
               >
-                <span>Enter Ghana Delivery Details</span>
+                <span>Buy & Send Order Details to Owner</span>
                 <ArrowRight className="w-4 h-4" />
               </button>
             </div>

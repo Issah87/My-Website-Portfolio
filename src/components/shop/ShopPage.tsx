@@ -98,18 +98,18 @@ export const ShopPage: React.FC = () => {
           {/* Ghana contact prompt bar */}
           <div className="mt-4 p-3.5 bg-pink-50 border border-pink-200 rounded flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
             <div className="flex items-center gap-2 text-[#5B0F2A] font-semibold">
-              <Phone className="w-4 h-4 text-[#5B0F2A] shrink-0" />
-              <span>WhatsApp / Phone: 050 127 3875 / 024 284 2090</span>
+              <MapPin className="w-4 h-4 text-[#5B0F2A] shrink-0" />
+              <span>Atelier Location: Oforikrom, Accra Town Behind Central Mosque, Kumasi</span>
               <span className="hidden md:inline text-stone-400">·</span>
-              <span className="hidden md:inline font-normal text-stone-700">issahn712@gmail.com</span>
+              <span className="hidden md:inline font-mono text-stone-900">Email: issahn712@gmail.com</span>
             </div>
 
             <button
               onClick={() => openWhatsAppModal()}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-emerald-700 hover:bg-emerald-800 text-white rounded font-medium transition-colors cursor-pointer self-start sm:self-auto"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#5B0F2A] hover:bg-[#43091D] text-white rounded font-medium transition-colors cursor-pointer self-start sm:self-auto"
             >
               <MessageCircle className="w-3.5 h-3.5" />
-              <span>WhatsApp for Pricing</span>
+              <span>Inquire on Website</span>
             </button>
           </div>
         </div>

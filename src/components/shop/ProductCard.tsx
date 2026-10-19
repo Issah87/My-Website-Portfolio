@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-import { Heart, MessageCircle, ShoppingBag, Send } from 'lucide-react';
+import { Heart, MessageSquare, ShoppingBag, Send, Mail } from 'lucide-react';
 import { Product, ProductColor } from '../../types';
 import { useShop } from '../../context/ShopContext';
-import { openWhatsAppOrder, PRIMARY_WHATSAPP_NUMBER } from '../../utils/sendWhatsAppOrder';
 import { ColorizedDressImage } from './ColorizedDressImage';
 
 interface ProductCardProps {
@@ -10,7 +9,7 @@ interface ProductCardProps {
 }
 
 export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
-  const { viewProduct, wishlist, toggleWishlist, addToCart, openWhatsAppModal, settings } = useShop();
+  const { viewProduct, wishlist, toggleWishlist, addToCart, openInquiryModal } = useShop();
   const [selectedLength, setSelectedLength] = useState(product.sizes[2] || '54"');
   const [selectedColor, setSelectedColor] = useState<ProductColor>(product.colors[0] || { name: 'Standard', hex: '#333333' });
 
@@ -25,27 +24,12 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 
   const handleBuyClick = (e: React.MouseEvent) => {
     e.stopPropagation();
-    openWhatsAppModal(product, selectedColor, selectedLength, 'buy');
+    openInquiryModal(product, selectedColor, selectedLength, 'buy');
   };
 
   const handleInquireClick = (e: React.MouseEvent) => {
     e.stopPropagation();
-    openWhatsAppModal(product, selectedColor, selectedLength, 'inquire');
-  };
-
-  const handleDirectWhatsApp = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    const message = `🌟 AL-IKHLAS FASHION CENTER · GHANA 🌟\n` +
-      `Shop Location: Oforikrom, Accra Town Behind Central Mosque\n` +
-      `Direct WhatsApp: 050 127 3875 / 024 284 2090\n\n` +
-      `Hello! I want to BUY / ORDER this dress:\n\n` +
-      `👗 Dress Model: "${product.name}"\n` +
-      `🎨 Selected Color: ${selectedColor.name}\n` +
-      `📏 Selected Length: ${selectedLength}\n` +
-      `🏷️ Category: ${product.category}\n` +
-      `\nPlease confirm the price quote and sewing turnaround time so sewing can begin!`;
-
-    openWhatsAppOrder(message, PRIMARY_WHATSAPP_NUMBER);
+    openInquiryModal(product, selectedColor, selectedLength, 'inquire');
   };
 
   return (
@@ -101,10 +85,10 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
                   e.stopPropagation();
                   setSelectedLength(sz);
                 }}
-                className={`text-[10px] px-1.5 py-1 border transition-colors cursor-pointer whitespace-nowrap ${
+                className={`px-2 py-1 text-[10px] font-bold transition-all ${
                   selectedLength === sz
-                    ? 'border-[#5B0F2A] bg-[#5B0F2A] text-white font-bold'
-                    : 'border-stone-300 text-stone-700 hover:border-stone-500'
+                    ? 'bg-[#5B0F2A] text-white'
+                    : 'bg-white text-stone-700 hover:bg-stone-100 border border-stone-200'
                 }`}
               >
                 {sz}
@@ -114,38 +98,43 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 
           <button
             onClick={handleQuickAdd}
-            className="inline-flex items-center gap-1 text-[11px] font-semibold bg-[#5B0F2A] hover:bg-[#43091D] text-white px-2.5 py-1.5 transition-colors shrink-0 cursor-pointer"
-            title="Save to Inquiry Bag"
+            className="px-2.5 py-1 bg-[#5B0F2A] hover:bg-[#43091D] text-white text-[10px] font-bold uppercase tracking-wider rounded cursor-pointer whitespace-nowrap"
           >
-            <ShoppingBag className="w-3 h-3" />
-            <span>Select</span>
+            + Bag
           </button>
         </div>
       </div>
 
-      {/* Product Card Details - STRICTLY NO NUMERIC PRICE */}
-      <div className="p-4 flex flex-col flex-grow justify-between bg-white space-y-3">
-        <div>
-          {/* Category */}
-          <div className="text-[10px] font-bold tracking-wider uppercase text-stone-500 mb-1">
+      {/* Metadata & Description */}
+      <div className="p-4 flex flex-col flex-1 justify-between bg-white space-y-3">
+        <div className="space-y-1">
+          <div className="text-[10px] font-bold uppercase tracking-wider text-stone-400">
             {product.category}
           </div>
 
-          {/* Title */}
-          <h3 className="font-serif-brand text-base text-stone-900 group-hover:text-[#5B0F2A] line-clamp-1 font-semibold transition-colors">
+          <h3 className="font-serif-brand text-base font-bold text-stone-900 group-hover:text-[#5B0F2A] transition-colors line-clamp-1">
             {product.name}
           </h3>
 
-          {/* Color swatch selection right on the card */}
-          <div className="mt-2.5 space-y-1">
-            <div className="flex items-center justify-between text-[11px]">
-              <span className="text-stone-500 truncate">
-                Color: <strong className="text-stone-800 font-semibold">{selectedColor.name}</strong>
-              </span>
-            </div>
+          <p className="text-xs text-stone-500 line-clamp-2 leading-relaxed">
+            {product.description}
+          </p>
+        </div>
 
-            <div className="flex items-center gap-1.5">
-              {product.colors.map((c) => {
+        {/* Color Palette Swatches */}
+        <div className="pt-2 border-t border-stone-100 flex items-center justify-between">
+          <div className="flex items-center gap-1.5">
+            <span className="text-[10px] text-stone-500 uppercase font-semibold">
+              Shade:
+            </span>
+            <span className="text-[11px] font-medium text-stone-900 truncate max-w-[120px]">
+              {selectedColor.name}
+            </span>
+          </div>
+
+          <div className="flex items-center gap-1">
+            <div className="flex items-center -space-x-1">
+              {product.colors.slice(0, 4).map((c) => {
                 const isSelected = selectedColor.name === c.name;
                 return (
                   <button
@@ -157,7 +146,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
                     }}
                     className={`relative p-0.5 rounded-full transition-transform cursor-pointer ${
                       isSelected 
-                        ? 'ring-2 ring-[#5B0F2A] ring-offset-1 scale-110' 
+                        ? 'ring-2 ring-[#5B0F2A] ring-offset-1 scale-110 z-10' 
                         : 'opacity-85 hover:opacity-100 hover:scale-105'
                     }`}
                     title={`Choose ${c.name}`}
@@ -191,34 +180,24 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             </span>
           </div>
 
-          <div className="flex items-center gap-1 shrink-0">
+          <div className="flex items-center gap-1.5 shrink-0">
             {/* Buy / Order Button */}
             <button
               onClick={handleBuyClick}
-              className="inline-flex items-center gap-1 px-2.5 py-1.5 bg-[#5B0F2A] hover:bg-[#43091D] text-white text-[11px] font-bold rounded cursor-pointer transition-colors shadow-xs"
-              title={`Buy "${product.name}" in ${selectedColor.name}`}
+              className="inline-flex items-center gap-1 px-3 py-1.5 bg-[#5B0F2A] hover:bg-[#43091D] text-white text-[11px] font-bold rounded cursor-pointer transition-colors shadow-xs"
+              title={`Buy "${product.name}" in ${selectedColor.name} & send details to owner`}
             >
               <ShoppingBag className="w-3 h-3" />
-              <span>Buy</span>
+              <span>Buy / Order</span>
             </button>
 
-            {/* Inquire Button */}
+            {/* Quick Add to Bag */}
             <button
-              onClick={handleInquireClick}
-              className="inline-flex items-center gap-1 px-2 py-1.5 bg-stone-100 hover:bg-stone-200 text-stone-800 text-[11px] font-medium border border-stone-300 rounded cursor-pointer transition-colors"
-              title={`Inquire about "${product.name}" in ${selectedColor.name}`}
+              onClick={handleQuickAdd}
+              className="inline-flex items-center gap-1 px-2.5 py-1.5 bg-stone-100 hover:bg-stone-200 text-stone-800 text-[11px] font-medium border border-stone-300 rounded cursor-pointer transition-colors"
+              title={`Add "${product.name}" to bag`}
             >
-              <MessageCircle className="w-3 h-3 text-[#5B0F2A]" />
-              <span>Inquire</span>
-            </button>
-
-            {/* Direct WhatsApp to Owner */}
-            <button
-              onClick={handleDirectWhatsApp}
-              className="p-1.5 bg-emerald-700 hover:bg-emerald-800 text-white rounded cursor-pointer transition-colors shadow-xs"
-              title={`Send "${product.name}" in ${selectedColor.name} to owner on WhatsApp`}
-            >
-              <Send className="w-3 h-3" />
+              <span>+ Bag</span>
             </button>
           </div>
         </div>

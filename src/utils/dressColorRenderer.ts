@@ -19,7 +19,7 @@ export function getColorBlendSettings(hex?: string): ColorBlendSettings {
 
 /**
  * Renders the authentic boutique dress image with the official boutique watermark banner
- * displaying owner WhatsApp 0242842090 and dress details, without artificial color manipulation.
+ * displaying email issahn712@gmail.com and dress details, without artificial color manipulation.
  */
 export async function renderColorizedDressBlob(
   baseImageSrc: string,
@@ -44,7 +44,7 @@ export async function renderColorizedDressBlob(
         // 1. Draw pristine original dress photo untouched
         ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
-        // 2. Stamp professional boutique banner at the bottom with Owner WhatsApp 024 284 2090
+        // 2. Stamp professional boutique banner at the bottom with Email issahn712@gmail.com
         ctx.save();
         const bannerHeight = Math.max(54, Math.round(canvas.height * 0.088));
         ctx.fillStyle = 'rgba(28, 25, 23, 0.94)';
@@ -68,7 +68,7 @@ export async function renderColorizedDressBlob(
         ctx.strokeStyle = '#FFFFFF';
         ctx.stroke();
 
-        // Banner text: Dress Model + Selected Color + Owner WhatsApp 0242842090
+        // Banner text: Dress Model + Selected Color + Official Email issahn712@gmail.com
         const fontSize = Math.max(13, Math.round(bannerHeight * 0.3));
         ctx.font = `bold ${fontSize}px sans-serif`;
         ctx.fillStyle = '#FFFFFF';
@@ -80,7 +80,7 @@ export async function renderColorizedDressBlob(
 
         ctx.font = `${Math.max(10, fontSize - 3)}px sans-serif`;
         ctx.fillStyle = '#D4AF37';
-        ctx.fillText(`AL-IKHLAS FASHION CENTER · WhatsApp: 050 127 3875 / 024 284 2090`, textLeft, swatchY + 11);
+        ctx.fillText(`AL-IKHLAS FASHION CENTER · Email: issahn712@gmail.com · Oforikrom, Kumasi`, textLeft, swatchY + 11);
 
         ctx.restore();
 

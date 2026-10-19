@@ -68,28 +68,29 @@ export const AtelierStoryPage: React.FC = () => {
 
             <div className="space-y-3 bg-[#3D061A] p-4 rounded border border-pink-500/20">
               <span className="font-bold text-amber-300 uppercase tracking-wider block">
-                DIRECT CONTACT & CALLS:
+                DIRECT BOUTIQUE CONTACT:
               </span>
-              <p className="text-stone-300">
+              <p className="text-stone-300 text-xs">
                 Reach out directly for dress bookings, custom measurements, and nationwide delivery arrangements:
               </p>
-              <div className="space-y-1 font-mono text-base font-bold text-white">
-                <a href="https://wa.me/233501273875" target="_blank" rel="noopener noreferrer" className="block text-emerald-300 hover:text-emerald-200">
-                  📱 WhatsApp: 050 127 3875
-                </a>
-                <a href="tel:0242842090" className="block hover:text-amber-300">📞 024 284 2090</a>
-                <a href="tel:0264460744" className="block hover:text-amber-300">📞 026 446 0744</a>
-                <a href="mailto:issahn712@gmail.com" className="block text-amber-200 font-sans text-xs pt-1 hover:underline">
-                  ✉️ issahn712@gmail.com
-                </a>
+              <div className="space-y-2 text-white">
+                <div className="p-2.5 bg-white/10 rounded border border-pink-500/30">
+                  <span className="block text-[10px] text-pink-300 uppercase font-semibold">Official Boutique Email:</span>
+                  <a href="mailto:issahn712@gmail.com" className="block text-amber-200 font-mono text-sm font-bold hover:underline mt-0.5">
+                    issahn712@gmail.com
+                  </a>
+                </div>
+                <p className="text-[11px] text-stone-300">
+                  All customer communication and order discussions happen securely on our website.
+                </p>
               </div>
               <div className="pt-2">
                 <button
                   onClick={() => openWhatsAppModal()}
-                  className="w-full py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs uppercase tracking-wider rounded flex items-center justify-center gap-2 transition-colors cursor-pointer"
+                  className="w-full py-2.5 bg-amber-400 hover:bg-amber-300 text-[#43091D] font-bold text-xs uppercase tracking-wider rounded flex items-center justify-center gap-2 transition-colors cursor-pointer"
                 >
                   <MessageCircle className="w-4 h-4" />
-                  <span>Chat on WhatsApp: 050 127 3875</span>
+                  <span>Inquire on Website</span>
                 </button>
               </div>
             </div>
@@ -117,9 +118,9 @@ export const AtelierStoryPage: React.FC = () => {
               <span className="w-7 h-7 bg-[#5B0F2A] text-white rounded-full flex items-center justify-center font-bold text-xs">
                 2
               </span>
-              <h3 className="font-bold text-sm text-stone-900">Tap Inquire or Call for Price</h3>
+              <h3 className="font-bold text-sm text-stone-900">Place Order or Inquire on Website</h3>
               <p className="leading-relaxed text-stone-600">
-                Tap Inquire with your chosen dress & shade, or call <strong>050 127 3875 / 024 284 2090</strong>. We will confirm your measurements, discuss fabric options, and give you an exact price quote.
+                Tap Inquire with your chosen dress & shade or place an order directly on the website. You can discuss fabric options, custom fit, and progress updates with the owner directly.
               </p>
             </div>
 
@@ -171,10 +172,10 @@ export const AtelierStoryPage: React.FC = () => {
 
               <button
                 onClick={() => openWhatsAppModal()}
-                className="inline-flex items-center gap-2 px-5 py-3 border border-emerald-700 bg-emerald-50 text-emerald-900 text-xs font-bold hover:bg-emerald-100 transition-colors cursor-pointer rounded"
+                className="inline-flex items-center gap-2 px-5 py-3 border border-[#5B0F2A] bg-pink-50 text-[#5B0F2A] text-xs font-bold hover:bg-pink-100 transition-colors cursor-pointer rounded"
               >
-                <MessageCircle className="w-3.5 h-3.5 text-emerald-700" />
-                <span>WhatsApp: 050 127 3875</span>
+                <MessageCircle className="w-3.5 h-3.5 text-[#5B0F2A]" />
+                <span>Inquire on Website</span>
               </button>
             </div>
           </div>

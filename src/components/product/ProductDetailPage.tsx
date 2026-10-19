@@ -2,8 +2,7 @@ import React, { useState } from 'react';
 import { 
   Heart, 
   ShoppingBag, 
-  MessageCircle, 
-  Phone, 
+  MessageSquare, 
   MapPin, 
   Ruler, 
   Scissors, 
@@ -19,12 +18,9 @@ import { useShop } from '../../context/ShopContext';
 import { AbayaLength, ProductColor } from '../../types';
 import { ProductCard } from '../shop/ProductCard';
 import { 
-  openWhatsAppOrder, 
   openEmailOrder, 
   downloadDressPhoto, 
   shareDressPhoto,
-  PRIMARY_WHATSAPP_NUMBER,
-  SECONDARY_WHATSAPP_NUMBER,
   SHOP_TARGET_EMAIL
 } from '../../utils/sendWhatsAppOrder';
 import { ColorizedDressImage } from '../shop/ColorizedDressImage';
@@ -37,10 +33,9 @@ export const ProductDetailPage: React.FC = () => {
     wishlist, 
     toggleWishlist, 
     setIsSizeGuideOpen, 
-    openWhatsAppModal, 
+    openInquiryModal, 
     setActiveTab,
     getAbsoluteImageUrl,
-    getWhatsAppOrderUrl,
     settings
   } = useShop();
 
@@ -74,7 +69,7 @@ export const ProductDetailPage: React.FC = () => {
   const baseImage = product.images[activeImageIndex] || product.images[0];
   const isBaseColor = selectedColor.name === product.colors[0]?.name;
 
-  const handleAddToInquiryBag = () => {
+  const handleAddToBag = () => {
     const success = addToCart(product, selectedLength, selectedColor, customMeasurementNotes);
     if (success) {
       setAddedNotice(true);
@@ -82,27 +77,15 @@ export const ProductDetailPage: React.FC = () => {
     }
   };
 
-  const handleDirectWhatsAppBuy = () => {
-    let msg = `🌟 AL-IKHLAS FASHION CENTER · BUY ORDER 🌟\n` +
-      `Shop: Oforikrom, Accra Town Behind Central Mosque\n` +
-      `Direct Contacts: 050 127 3875 / 024 284 2090 | Email: ${SHOP_TARGET_EMAIL}\n\n` +
-      `Hello! I want to BUY / ORDER this dress:\n\n` +
-      `👗 Dress Style: "${product.name}"\n` +
-      `🎨 Selected Color: ${selectedColor.name}\n` +
-      `📏 Selected Length: ${selectedLength}\n` +
-      `🏷️ Category: ${product.category}\n`;
-    if (customMeasurementNotes.trim()) {
-      msg += `📝 Tailoring / Measurement Notes: ${customMeasurementNotes.trim()}\n`;
-    }
-    msg += `\nPlease send me the price quote, MoMo / cash payment instructions, and completion schedule so sewing can start!`;
-
-    openWhatsAppOrder(msg, PRIMARY_WHATSAPP_NUMBER);
+  const handleBuyOnWebsite = () => {
+    openInquiryModal(product, selectedColor, selectedLength, 'buy');
   };
 
-  const handleDirectEmailInquiry = () => {
-    let msg = `🌟 AL-IKHLAS FASHION CENTER · DRESS INQUIRY / ORDER 🌟\n` +
-      `Shop: Oforikrom, Accra Town Behind Central Mosque\n\n` +
-      `Hello! I want to order / inquire about this dress:\n\n` +
+  const handleSendEmailOrder = () => {
+    let msg = `🌟 AL-IKHLAS FASHION CENTER · DRESS ORDER DETAILS 🌟\n` +
+      `Shop: Oforikrom, Accra Town Behind Central Mosque, Kumasi\n` +
+      `Owner Email: ${SHOP_TARGET_EMAIL}\n\n` +
+      `Hello! I want to order this dress and am sending the specifications:\n\n` +
       `👗 Dress Style: "${product.name}"\n` +
       `🎨 Selected Color: ${selectedColor.name}\n` +
       `📏 Selected Length: ${selectedLength}\n` +
@@ -110,11 +93,11 @@ export const ProductDetailPage: React.FC = () => {
     if (customMeasurementNotes.trim()) {
       msg += `📝 Tailoring / Measurement Notes: ${customMeasurementNotes.trim()}\n`;
     }
-    msg += `\nPlease send me the price quote and sewing turnaround schedule. Thank you!`;
+    msg += `\nPlease confirm my dress order and sewing schedule. Thank you!`;
 
     openEmailOrder({
       to: SHOP_TARGET_EMAIL,
-      subject: `Order Inquiry: ${product.name} in ${selectedColor.name}`,
+      subject: `Dress Order: ${product.name} in ${selectedColor.name}`,
       body: msg,
     });
   };
@@ -129,10 +112,6 @@ export const ProductDetailPage: React.FC = () => {
     await shareDressPhoto(baseImage, product.name, selectedColor.name);
     setSharedNotice(true);
     setTimeout(() => setSharedNotice(false), 2500);
-  };
-
-  const handleInquireModal = () => {
-    openWhatsAppModal(product, selectedColor, selectedLength, 'inquire');
   };
 
   const relatedProducts = products
@@ -276,7 +255,7 @@ export const ProductDetailPage: React.FC = () => {
               {/* Price Banner: NO NUMERIC PRICES */}
               <div className="mt-3 p-3 bg-pink-50 border border-pink-200 rounded">
                 <span className="text-sm font-bold text-[#5B0F2A] block">
-                  Price on Request · Call/WhatsApp for Custom Sewing
+                  Price on Request · Custom Sewing Available
                 </span>
                 <span className="text-[11px] text-stone-600 block mt-0.5">
                   Pricing depends on your exact height length, fabric choice, and custom details.
@@ -393,89 +372,61 @@ export const ProductDetailPage: React.FC = () => {
               />
             </div>
 
-            {/* Actions: Buy Now & Inquire Buttons */}
+            {/* Actions: Buy Now & Order Buttons */}
             <div className="pt-2 space-y-2.5">
-              {/* Primary Direct WhatsApp Buy */}
+              {/* Primary On-Website Buy Button */}
               <button
-                onClick={handleDirectWhatsAppBuy}
-                className="w-full flex items-center justify-center gap-2 py-3.5 px-4 bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs uppercase tracking-wider rounded transition-colors shadow-sm cursor-pointer"
-                title={`Send buy order for ${product.name} in ${selectedColor.name} to owner WhatsApp 050 127 3875`}
+                onClick={handleBuyOnWebsite}
+                className="w-full flex items-center justify-center gap-2 py-3.5 px-4 bg-[#5B0F2A] hover:bg-[#43091D] text-white font-bold text-xs uppercase tracking-wider rounded transition-colors shadow-sm cursor-pointer"
+                title={`Buy ${product.name} in ${selectedColor.name} directly and send details to owner`}
               >
                 <ShoppingBag className="w-4 h-4" />
-                <span>Buy on WhatsApp 050 127 3875 ({selectedColor.name})</span>
+                <span>Buy / Order This Dress & Send Details to Owner</span>
               </button>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                {/* Inquiry Form Modal Button */}
+                {/* Save to Bag button */}
                 <button
-                  onClick={handleInquireModal}
-                  className="w-full flex items-center justify-center gap-1.5 py-2.5 px-3 bg-[#5B0F2A] hover:bg-[#43091D] text-white font-bold text-xs uppercase tracking-wider rounded transition-colors cursor-pointer shadow-xs"
+                  onClick={handleAddToBag}
+                  className="w-full flex items-center justify-center gap-1.5 py-2.5 px-3 bg-stone-800 hover:bg-stone-900 text-white font-bold text-xs uppercase tracking-wider rounded transition-colors cursor-pointer shadow-xs"
                 >
-                  <MessageCircle className="w-3.5 h-3.5" />
-                  <span>Inquire Price / Colors</span>
+                  {addedNotice ? (
+                    <>
+                      <Check className="w-3.5 h-3.5 text-emerald-400" />
+                      <span>Added to Bag!</span>
+                    </>
+                  ) : (
+                    <>
+                      <ShoppingBag className="w-3.5 h-3.5" />
+                      <span>Add to Bag</span>
+                    </>
+                  )}
                 </button>
 
-                {/* Direct Email Inquiry */}
+                {/* Direct Email Order */}
                 <button
-                  onClick={handleDirectEmailInquiry}
+                  onClick={handleSendEmailOrder}
                   className="w-full flex items-center justify-center gap-1.5 py-2.5 px-3 bg-white hover:bg-stone-50 border border-stone-300 text-stone-800 font-bold text-xs uppercase tracking-wider rounded transition-colors cursor-pointer shadow-xs"
                 >
                   <Mail className="w-3.5 h-3.5 text-[#5B0F2A]" />
-                  <span>Send via Email</span>
+                  <span>Send Order via Email</span>
                 </button>
               </div>
 
-              {/* Consultation / Measurements */}
+              {/* Custom Measurements & Sizing */}
               <button
-                onClick={() => openWhatsAppModal(product, selectedColor, selectedLength, 'buy')}
-                className="w-full flex items-center justify-center gap-2 py-2 px-4 bg-white border border-[#5B0F2A] text-[#5B0F2A] hover:bg-pink-50 font-bold text-xs uppercase tracking-wider rounded transition-colors cursor-pointer"
+                onClick={() => openInquiryModal(product, selectedColor, selectedLength, 'buy')}
+                className="w-full flex items-center justify-center gap-2 py-2.5 px-4 bg-white border border-[#5B0F2A] text-[#5B0F2A] hover:bg-pink-50 font-bold text-xs uppercase tracking-wider rounded transition-colors cursor-pointer"
               >
                 <Scissors className="w-3.5 h-3.5" />
-                <span>Book Custom Measurements / Sizing</span>
+                <span>Order with Custom Measurements / Tailoring</span>
               </button>
 
-              {/* Direct Call to Shop */}
-              <div className="grid grid-cols-2 gap-2">
-                <a
-                  href="tel:0501273875"
-                  className="flex items-center justify-center gap-1.5 py-2.5 px-3 bg-stone-800 hover:bg-stone-900 text-white font-bold text-xs rounded transition-colors text-center"
-                >
-                  <Phone className="w-3.5 h-3.5 text-amber-300" />
-                  <span>Call: 050 127 3875</span>
-                </a>
-
-                <a
-                  href="tel:0242842090"
-                  className="flex items-center justify-center gap-1.5 py-2.5 px-3 bg-stone-800 hover:bg-stone-900 text-white font-bold text-xs rounded transition-colors text-center"
-                >
-                  <Phone className="w-3.5 h-3.5 text-amber-300" />
-                  <span>Call: 024 284 2090</span>
-                </a>
-              </div>
-
-              {/* Boutique Hotline Reassurance */}
+              {/* Boutique Official Contact Info */}
               <div className="p-3 bg-stone-50 border border-stone-200 rounded flex flex-col sm:flex-row sm:items-center justify-between gap-1 text-xs text-stone-600">
-                <span>WhatsApp: <strong className="text-stone-900 font-mono">050 127 3875 / 024 284 2090</strong></span>
-                <span className="text-[#5B0F2A] font-semibold">{SHOP_TARGET_EMAIL}</span>
+                <span>Official Boutique Contact: <strong className="text-stone-900 font-sans">On-Website Messaging</strong></span>
+                <span className="text-[#5B0F2A] font-semibold font-mono">{SHOP_TARGET_EMAIL}</span>
               </div>
-
-              {/* Save to inquiry bag */}
-              <button
-                onClick={handleAddToInquiryBag}
-                className="w-full flex items-center justify-center gap-2 py-2.5 px-4 bg-stone-100 hover:bg-stone-200 border border-stone-300 text-stone-800 font-semibold text-xs rounded transition-colors cursor-pointer"
-              >
-                {addedNotice ? (
-                  <>
-                    <Check className="w-4 h-4 text-emerald-600" />
-                    <span>Saved to your Inquiry Bag ({selectedColor.name})!</span>
-                  </>
-                ) : (
-                  <>
-                    <ShoppingBag className="w-3.5 h-3.5" />
-                    <span>Save to Bag ({selectedColor.name})</span>
-                  </>
-                )}
-              </button>
             </div>
 
             {/* Accordion Tabs */}
