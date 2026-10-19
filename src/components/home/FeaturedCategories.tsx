@@ -15,7 +15,7 @@ interface ServiceCard {
 }
 
 export const FeaturedCategories: React.FC = () => {
-  const { setFilters, setActiveTab, setIsFlyerModalOpen } = useShop();
+  const { selectCategory, setIsFlyerModalOpen } = useShop();
 
   const services: ServiceCard[] = [
     {
@@ -45,9 +45,7 @@ export const FeaturedCategories: React.FC = () => {
   ];
 
   const handleSelect = (category: ModestCategory) => {
-    setFilters(prev => ({ ...prev, category, searchQuery: '' }));
-    setActiveTab('shop');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    selectCategory(category);
   };
 
   return (

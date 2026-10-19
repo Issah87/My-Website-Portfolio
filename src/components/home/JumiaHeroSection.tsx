@@ -33,7 +33,14 @@ interface HeroSlide {
 }
 
 export const JumiaHeroSection: React.FC = () => {
-  const { setActiveTab, setFilters, setIsFlyerModalOpen, setIsSizeGuideOpen } = useShop();
+  const { 
+    setActiveTab, 
+    setFilters, 
+    selectCategory, 
+    setIsCategoriesModalOpen, 
+    setIsFlyerModalOpen, 
+    setIsSizeGuideOpen 
+  } = useShop();
   const [currentSlide, setCurrentSlide] = useState(0);
 
   const slides: HeroSlide[] = [
@@ -88,9 +95,7 @@ export const JumiaHeroSection: React.FC = () => {
   }, [slides.length]);
 
   const handleCategoryClick = (cat: ModestCategory) => {
-    setFilters(prev => ({ ...prev, category: cat, searchQuery: '' }));
-    setActiveTab('shop');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    selectCategory(cat);
   };
 
   const handleSlideAction = (slide: HeroSlide) => {
@@ -98,11 +103,12 @@ export const JumiaHeroSection: React.FC = () => {
   };
 
   const categoriesRail: { label: string; cat: ModestCategory; icon: string; count?: string }[] = [
-    { label: 'Straight Abayas & Dresses', cat: 'Straight Abayas & Dresses', icon: '👗', count: '10+ Styles' },
-    { label: 'Gathered Boubous & Tiers', cat: 'Gathered Boubous', icon: '🌸', count: '8+ Styles' },
-    { label: 'Pleated Luxury & Maxi', cat: 'Pleated Abayas', icon: '✨', count: '6+ Styles' },
-    { label: 'Capelet & Two-Piece Sets', cat: 'Capelet & Two-Piece Sets', icon: '👑', count: '5+ Styles' },
-    { label: 'All Abayas & Dresses', cat: 'All', icon: '🛍️', count: '30+ Styles' },
+    { label: 'Straight Abayas & Dresses', cat: 'Straight Abayas & Dresses', icon: '👗', count: '6 Styles' },
+    { label: 'Gathered Boubous & Tiers', cat: 'Gathered Abayas', icon: '🌸', count: '6 Styles' },
+    { label: 'Pleated Luxury & Maxi', cat: 'Pleated Abayas', icon: '✨', count: '4 Styles' },
+    { label: 'Capelet & Two-Piece Sets', cat: 'Capelet & Two-Piece Sets', icon: '👑', count: '5 Styles' },
+    { label: 'Classic & Coat Abayas', cat: 'Abayas', icon: '🧥', count: '5 Styles' },
+    { label: 'All Abayas & Dresses', cat: 'All', icon: '🛍️', count: '26 Styles' },
   ];
 
   return (
@@ -114,14 +120,19 @@ export const JumiaHeroSection: React.FC = () => {
           
           {/* COLUMN 1: Jumia Left Category Sidebar (Hidden on mobile, 3 cols on large) */}
           <div className="hidden lg:flex lg:col-span-3 flex-col bg-white border border-stone-200/90 rounded-sm shadow-2xs overflow-hidden">
-            <div className="p-3 bg-stone-50 border-b border-stone-200 flex items-center justify-between">
-              <span className="text-xs font-bold uppercase tracking-wider text-stone-700 flex items-center gap-1.5">
-                <span className="text-[#5B0F2A] font-black">≡</span> Categories
+            <button
+              onClick={() => setIsCategoriesModalOpen(true)}
+              className="p-3 bg-stone-50 border-b border-stone-200 flex items-center justify-between hover:bg-pink-50/70 transition-colors cursor-pointer group text-left"
+              title="Click to browse all categories"
+            >
+              <span className="text-xs font-bold uppercase tracking-wider text-stone-800 flex items-center gap-1.5 group-hover:text-[#5B0F2A]">
+                <span className="text-[#5B0F2A] font-black text-sm">≡</span> Categories
               </span>
-              <span className="text-[10px] text-amber-700 font-semibold bg-amber-50 px-1.5 py-0.5 rounded border border-amber-200">
-                Ghana Atelier
+              <span className="text-[10px] text-amber-700 font-semibold bg-amber-50 group-hover:bg-amber-100 px-1.5 py-0.5 rounded border border-amber-200 flex items-center gap-0.5">
+                <span>Browse</span>
+                <ChevronRight className="w-3 h-3" />
               </span>
-            </div>
+            </button>
 
             <div className="py-1 flex-1 flex flex-col justify-between text-xs">
               <div className="divide-y divide-stone-100">
@@ -366,6 +377,44 @@ export const JumiaHeroSection: React.FC = () => {
 
           </div>
 
+        </div>
+
+        {/* Mobile / Tablet Categories Bar (< lg screens) */}
+        <div className="lg:hidden mt-3 bg-white border border-stone-200/90 rounded-sm p-2.5 shadow-2xs">
+          <div className="flex items-center justify-between pb-2 border-b border-stone-100 px-1">
+            <button
+              onClick={() => setIsCategoriesModalOpen(true)}
+              className="text-xs font-bold uppercase tracking-wider text-stone-800 flex items-center gap-1.5 hover:text-[#5B0F2A] cursor-pointer"
+            >
+              <span className="text-[#5B0F2A] font-black text-sm">≡</span> Categories
+            </button>
+            <button
+              onClick={() => setIsCategoriesModalOpen(true)}
+              className="text-[11px] text-[#5B0F2A] font-semibold flex items-center gap-0.5 hover:underline cursor-pointer"
+            >
+              <span>View All ({categoriesRail.length})</span>
+              <ChevronRight className="w-3.5 h-3.5" />
+            </button>
+          </div>
+
+          <div className="flex items-center gap-2 overflow-x-auto pt-2 pb-1 scrollbar-thin">
+            <button
+              onClick={() => setIsCategoriesModalOpen(true)}
+              className="shrink-0 px-3 py-1.5 bg-[#5B0F2A] hover:bg-[#43091D] text-white rounded-full text-xs font-bold flex items-center gap-1.5 cursor-pointer shadow-2xs transition-colors"
+            >
+              <span className="font-mono">≡</span> All Categories
+            </button>
+            {categoriesRail.map((item) => (
+              <button
+                key={item.label}
+                onClick={() => handleCategoryClick(item.cat)}
+                className="shrink-0 px-3 py-1.5 bg-stone-100 hover:bg-stone-200 text-stone-800 rounded-full text-xs font-medium flex items-center gap-1.5 transition-colors cursor-pointer border border-stone-200"
+              >
+                <span>{item.icon}</span>
+                <span>{item.label}</span>
+              </button>
+            ))}
+          </div>
         </div>
 
       </div>

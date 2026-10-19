@@ -92,6 +92,9 @@ interface ShopContextType {
   setIsSizeGuideOpen: (open: boolean) => void;
   isFlyerModalOpen: boolean;
   setIsFlyerModalOpen: (open: boolean) => void;
+  isCategoriesModalOpen: boolean;
+  setIsCategoriesModalOpen: (open: boolean) => void;
+  selectCategory: (category: ModestCategory | string) => void;
   
   // On-Website Inquiry Modal (replaces phone WhatsApp modal)
   isInquiryModalOpen: boolean;
@@ -122,6 +125,18 @@ interface ShopContextType {
 }
 
 const ShopContext = createContext<ShopContextType | undefined>(undefined);
+
+export const normalizeCategory = (cat?: string): ModestCategory => {
+  if (!cat) return 'All';
+  const c = cat.toLowerCase().trim();
+  if (c === 'all') return 'All';
+  if (c.includes('straight')) return 'Straight Abayas & Dresses';
+  if (c.includes('gather') || c.includes('boubou') || c.includes('tier')) return 'Gathered Abayas';
+  if (c.includes('pleat')) return 'Pleated Abayas';
+  if (c.includes('capelet') || c.includes('two-piece') || c.includes('set')) return 'Capelet & Two-Piece Sets';
+  if (c.includes('abaya')) return 'Abayas';
+  return 'All';
+};
 
 export const getAbsoluteImageUrl = (imagePath?: string): string => {
   if (!imagePath) return '';
@@ -347,6 +362,7 @@ export const ShopProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [isCartDrawerOpen, setIsCartDrawerOpen] = useState(false);
   const [isSizeGuideOpen, setIsSizeGuideOpen] = useState(false);
   const [isFlyerModalOpen, setIsFlyerModalOpen] = useState(false);
+  const [isCategoriesModalOpen, setIsCategoriesModalOpen] = useState(false);
   
   // On-Website Inquiry Modal
   const [isInquiryModalOpen, setIsInquiryModalOpen] = useState(false);
@@ -603,8 +619,24 @@ export const ShopProvider: React.FC<{ children: React.ReactNode }> = ({ children
   // Filters
   const resetFilters = () => setFilters(DEFAULT_FILTERS);
 
+  const selectCategory = (category: ModestCategory | string) => {
+    const normalized = normalizeCategory(category);
+    setFilters(prev => ({
+      ...prev,
+      category: normalized,
+      searchQuery: '',
+    }));
+    setActiveTab('shop');
+    setIsCategoriesModalOpen(false);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   const filteredProducts = products.filter(p => {
-    if (filters.category !== 'All' && p.category !== filters.category) return false;
+    if (filters.category !== 'All') {
+      const targetCat = normalizeCategory(filters.category);
+      const productCat = normalizeCategory(p.category);
+      if (targetCat !== productCat) return false;
+    }
     if (filters.searchQuery.trim()) {
       const q = filters.searchQuery.toLowerCase();
       const matchName = p.name.toLowerCase().includes(q);
@@ -683,6 +715,9 @@ export const ShopProvider: React.FC<{ children: React.ReactNode }> = ({ children
         setIsSizeGuideOpen,
         isFlyerModalOpen,
         setIsFlyerModalOpen,
+        isCategoriesModalOpen,
+        setIsCategoriesModalOpen,
+        selectCategory,
         isInquiryModalOpen,
         setIsInquiryModalOpen,
         selectedInquiryProduct,

@@ -23,16 +23,10 @@ export const JumiaProductShelf: React.FC<JumiaProductShelfProps> = ({
   products,
   categoryFilter,
 }) => {
-  const { setActiveTab, setFilters } = useShop();
+  const { selectCategory } = useShop();
 
   const handleSeeAll = () => {
-    if (categoryFilter && categoryFilter !== 'All') {
-      setFilters(prev => ({ ...prev, category: categoryFilter as any, searchQuery: '' }));
-    } else {
-      setFilters(prev => ({ ...prev, category: 'All', searchQuery: '' }));
-    }
-    setActiveTab('shop');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    selectCategory(categoryFilter || 'All');
   };
 
   return (

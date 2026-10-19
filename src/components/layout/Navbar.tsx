@@ -29,7 +29,9 @@ export const Navbar: React.FC = () => {
     setIsSizeGuideOpen,
     isOwnerAuthenticated,
     setFilters,
-    filters 
+    filters,
+    selectCategory,
+    setIsCategoriesModalOpen 
   } = useShop();
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -39,10 +41,8 @@ export const Navbar: React.FC = () => {
   const [helpDropdownOpen, setHelpDropdownOpen] = useState(false);
 
   const navigateToCategory = (cat: ModestCategory) => {
-    setFilters(prev => ({ ...prev, category: cat, searchQuery: '' }));
-    setActiveTab('shop');
+    selectCategory(cat);
     setMobileMenuOpen(false);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const handleNavSearch = (e: React.FormEvent) => {
@@ -100,14 +100,20 @@ export const Navbar: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
         <div className="flex items-center justify-between gap-3 sm:gap-6">
           
-          {/* Mobile hamburger menu */}
-          <div className="flex items-center lg:hidden">
+          {/* Mobile hamburger menu and categories button */}
+          <div className="flex items-center gap-2 lg:hidden">
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               className="p-1.5 text-stone-700 hover:text-stone-900 focus:outline-none"
               aria-label="Toggle navigation menu"
             >
               {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            </button>
+            <button
+              onClick={() => setIsCategoriesModalOpen(true)}
+              className="px-2.5 py-1 bg-pink-50 hover:bg-pink-100 border border-pink-200 text-[#5B0F2A] rounded-xs text-xs font-bold flex items-center gap-1 cursor-pointer transition-colors"
+            >
+              <span className="font-mono font-black">≡</span> Categories
             </button>
           </div>
 
@@ -328,6 +334,14 @@ export const Navbar: React.FC = () => {
           
           <div className="flex items-center gap-1 font-medium">
             <button
+              onClick={() => setIsCategoriesModalOpen(true)}
+              className="py-2 px-3 text-[#5B0F2A] hover:bg-pink-50 font-bold transition-colors cursor-pointer flex items-center gap-1.5 border-r border-stone-200 mr-1"
+            >
+              <span className="font-mono text-sm font-black">≡</span>
+              <span>All Categories</span>
+            </button>
+
+            <button
               onClick={() => {
                 setActiveTab('home');
                 window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -341,9 +355,7 @@ export const Navbar: React.FC = () => {
 
             <button
               onClick={() => {
-                setFilters(prev => ({ ...prev, category: 'All' }));
-                setActiveTab('shop');
-                window.scrollTo({ top: 0, behavior: 'smooth' });
+                selectCategory('All');
               }}
               className="py-2 px-3 hover:text-[#5B0F2A] hover:bg-stone-100 transition-colors cursor-pointer flex items-center gap-1 text-[#E02A3B] font-bold"
             >
@@ -353,41 +365,54 @@ export const Navbar: React.FC = () => {
 
             <button
               onClick={() => navigateToCategory('Straight Abayas & Dresses')}
-              className="py-2 px-3 hover:text-[#5B0F2A] hover:bg-stone-100 transition-colors cursor-pointer"
+              className={`py-2 px-3 hover:text-[#5B0F2A] hover:bg-stone-100 transition-colors cursor-pointer ${
+                activeTab === 'shop' && filters.category === 'Straight Abayas & Dresses' ? 'text-[#5B0F2A] font-bold bg-pink-50' : ''
+              }`}
             >
               Straight Abayas
             </button>
 
             <button
               onClick={() => navigateToCategory('Gathered Abayas')}
-              className="py-2 px-3 hover:text-[#5B0F2A] hover:bg-stone-100 transition-colors cursor-pointer"
+              className={`py-2 px-3 hover:text-[#5B0F2A] hover:bg-stone-100 transition-colors cursor-pointer ${
+                activeTab === 'shop' && filters.category === 'Gathered Abayas' ? 'text-[#5B0F2A] font-bold bg-pink-50' : ''
+              }`}
             >
               Gathered Boubous
             </button>
 
             <button
               onClick={() => navigateToCategory('Pleated Abayas')}
-              className="py-2 px-3 hover:text-[#5B0F2A] hover:bg-stone-100 transition-colors cursor-pointer"
+              className={`py-2 px-3 hover:text-[#5B0F2A] hover:bg-stone-100 transition-colors cursor-pointer ${
+                activeTab === 'shop' && filters.category === 'Pleated Abayas' ? 'text-[#5B0F2A] font-bold bg-pink-50' : ''
+              }`}
             >
               Pleated Luxury
             </button>
 
             <button
               onClick={() => navigateToCategory('Capelet & Two-Piece Sets')}
-              className="py-2 px-3 hover:text-[#5B0F2A] hover:bg-stone-100 transition-colors cursor-pointer"
+              className={`py-2 px-3 hover:text-[#5B0F2A] hover:bg-stone-100 transition-colors cursor-pointer ${
+                activeTab === 'shop' && filters.category === 'Capelet & Two-Piece Sets' ? 'text-[#5B0F2A] font-bold bg-pink-50' : ''
+              }`}
             >
               Capelet Sets
             </button>
 
             <button
-              onClick={() => {
-                setFilters(prev => ({ ...prev, category: 'All' }));
-                setActiveTab('shop');
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-              }}
+              onClick={() => navigateToCategory('Abayas')}
+              className={`py-2 px-3 hover:text-[#5B0F2A] hover:bg-stone-100 transition-colors cursor-pointer ${
+                activeTab === 'shop' && filters.category === 'Abayas' ? 'text-[#5B0F2A] font-bold bg-pink-50' : ''
+              }`}
+            >
+              Classic & Coat
+            </button>
+
+            <button
+              onClick={() => selectCategory('All')}
               className="py-2 px-3 hover:text-[#5B0F2A] hover:bg-stone-100 transition-colors cursor-pointer"
             >
-              All Dresses (30+)
+              All Dresses (26+)
             </button>
 
             <button
@@ -439,6 +464,22 @@ export const Navbar: React.FC = () => {
 
           <button
             onClick={() => {
+              setIsCategoriesModalOpen(true);
+              setMobileMenuOpen(false);
+            }}
+            className="w-full text-left py-2 px-2.5 bg-pink-100/70 border border-pink-200 text-[#5B0F2A] font-bold flex items-center justify-between rounded-xs cursor-pointer"
+          >
+            <span className="flex items-center gap-1.5">
+              <span className="font-mono text-base font-black">≡</span>
+              <span>Browse All Categories</span>
+            </span>
+            <span className="text-[10px] bg-[#5B0F2A] text-white px-2 py-0.5 rounded-full">
+              Explore
+            </span>
+          </button>
+
+          <button
+            onClick={() => {
               setActiveTab('home');
               setMobileMenuOpen(false);
             }}
@@ -449,8 +490,7 @@ export const Navbar: React.FC = () => {
 
           <button
             onClick={() => {
-              setFilters(prev => ({ ...prev, category: 'All' }));
-              setActiveTab('shop');
+              selectCategory('All');
               setMobileMenuOpen(false);
             }}
             className="block w-full text-left py-2 text-[#E02A3B] font-bold"
@@ -462,28 +502,35 @@ export const Navbar: React.FC = () => {
             onClick={() => navigateToCategory('Straight Abayas & Dresses')}
             className="block w-full text-left py-2 text-stone-700"
           >
-            Straight Abayas
+            👗 Straight Abayas
           </button>
 
           <button
             onClick={() => navigateToCategory('Gathered Abayas')}
             className="block w-full text-left py-2 text-stone-700"
           >
-            Gathered Boubous
+            🌸 Gathered Boubous
           </button>
 
           <button
             onClick={() => navigateToCategory('Pleated Abayas')}
             className="block w-full text-left py-2 text-stone-700"
           >
-            Pleated Luxury
+            ✨ Pleated Luxury
           </button>
 
           <button
             onClick={() => navigateToCategory('Capelet & Two-Piece Sets')}
             className="block w-full text-left py-2 text-stone-700"
           >
-            Capelet Sets
+            👑 Capelet Sets
+          </button>
+
+          <button
+            onClick={() => navigateToCategory('Abayas')}
+            className="block w-full text-left py-2 text-stone-700"
+          >
+            🧥 Classic & Coat
           </button>
 
           <div className="pt-2 border-t border-stone-100 flex gap-2">

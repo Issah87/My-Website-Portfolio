@@ -10,7 +10,7 @@ import {
   MapPin,
   Scissors
 } from 'lucide-react';
-import { useShop } from '../../context/ShopContext';
+import { useShop, normalizeCategory } from '../../context/ShopContext';
 import { ProductCard } from './ProductCard';
 import { ModestCategory, AbayaLength } from '../../types';
 
@@ -19,8 +19,8 @@ const CATEGORIES: ModestCategory[] = [
   'Straight Abayas & Dresses',
   'Gathered Abayas',
   'Pleated Abayas',
-  'Abayas',
   'Capelet & Two-Piece Sets',
+  'Abayas',
 ];
 
 const ALL_SIZES: AbayaLength[] = ['50"', '52"', '54"', '56"', '58"', '60"', 'Custom Fit'];
@@ -48,7 +48,8 @@ export const ShopPage: React.FC = () => {
     setFilters, 
     resetFilters, 
     setIsSizeGuideOpen,
-    openWhatsAppModal 
+    openInquiryModal,
+    selectCategory 
   } = useShop();
 
   const [mobileFilterOpen, setMobileFilterOpen] = useState(false);
@@ -108,8 +109,8 @@ export const ShopPage: React.FC = () => {
               onClick={() => openInquiryModal()}
               className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#5B0F2A] hover:bg-[#43091D] text-white rounded font-medium transition-colors cursor-pointer self-start sm:self-auto text-xs"
             >
-              <ShoppingBag className="w-3.5 h-3.5" />
-              <span>Buy / Order on Website</span>
+              <Scissors className="w-3.5 h-3.5" />
+              <span>Custom Sewing Inquiry</span>
             </button>
           </div>
         </div>
@@ -179,24 +180,29 @@ export const ShopPage: React.FC = () => {
             <div className="space-y-2">
               <span className="text-xs font-semibold text-stone-900 block">Department</span>
               <div className="space-y-1">
-                {CATEGORIES.map((cat) => (
-                  <button
-                    key={cat}
-                    onClick={() => setFilters(prev => ({ ...prev, category: cat }))}
-                    className={`w-full text-left text-xs py-1.5 px-2 transition-colors cursor-pointer flex items-center justify-between ${
-                      filters.category === cat
-                        ? 'font-bold text-[#5B0F2A] bg-pink-100/70'
-                        : 'text-stone-600 hover:text-stone-950 hover:bg-stone-100/50'
-                    }`}
-                  >
-                    <span>{cat}</span>
-                    <span className="text-[10px] text-stone-400 tabular-nums">
-                      {cat === 'All' 
-                        ? products.length 
-                        : products.filter(p => p.category === cat).length}
-                    </span>
-                  </button>
-                ))}
+                {CATEGORIES.map((cat) => {
+                  const isSelected = normalizeCategory(filters.category) === cat;
+                  const count = cat === 'All' 
+                    ? products.length 
+                    : products.filter(p => normalizeCategory(p.category) === cat).length;
+
+                  return (
+                    <button
+                      key={cat}
+                      onClick={() => selectCategory(cat)}
+                      className={`w-full text-left text-xs py-1.5 px-2 transition-colors cursor-pointer flex items-center justify-between rounded-xs ${
+                        isSelected
+                          ? 'font-bold text-[#5B0F2A] bg-pink-100/70'
+                          : 'text-stone-600 hover:text-stone-950 hover:bg-stone-100/50'
+                      }`}
+                    >
+                      <span>{cat}</span>
+                      <span className="text-[10px] text-stone-400 tabular-nums">
+                        {count}
+                      </span>
+                    </button>
+                  );
+                })}
               </div>
             </div>
 
@@ -271,6 +277,37 @@ export const ShopPage: React.FC = () => {
 
           {/* PRODUCT LISTINGS AREA */}
           <main className="lg:col-span-3">
+
+            {/* Jumia Horizontal Category Tabs Bar (Instant tap to switch categories) */}
+            <div className="bg-white border border-stone-200/90 rounded-sm p-2 mb-4 shadow-2xs">
+              <div className="flex items-center gap-1.5 overflow-x-auto scrollbar-thin py-0.5">
+                {CATEGORIES.map((cat) => {
+                  const isSelected = normalizeCategory(filters.category) === cat;
+                  const count = cat === 'All' 
+                    ? products.length 
+                    : products.filter(p => normalizeCategory(p.category) === cat).length;
+
+                  return (
+                    <button
+                      key={cat}
+                      onClick={() => selectCategory(cat)}
+                      className={`shrink-0 px-3 py-1.5 rounded-full text-xs font-semibold flex items-center gap-1.5 transition-all cursor-pointer ${
+                        isSelected
+                          ? 'bg-[#5B0F2A] text-white shadow-2xs'
+                          : 'bg-stone-100 hover:bg-stone-200 text-stone-700'
+                      }`}
+                    >
+                      <span>{cat}</span>
+                      <span className={`text-[10px] px-1.5 py-0.2 rounded-full font-mono ${
+                        isSelected ? 'bg-white/20 text-white font-bold' : 'bg-stone-200 text-stone-600'
+                      }`}>
+                        {count}
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
             
             {/* Active Filters Pill-Free Clean Bar */}
             {activeFiltersCount > 0 && (
@@ -355,17 +392,32 @@ export const ShopPage: React.FC = () => {
               <div className="space-y-2">
                 <span className="text-xs font-bold text-stone-900 uppercase">Department</span>
                 <div className="space-y-1">
-                  {CATEGORIES.map((cat) => (
-                    <button
-                      key={cat}
-                      onClick={() => setFilters(prev => ({ ...prev, category: cat }))}
-                      className={`block w-full text-left text-xs py-2 px-2.5 rounded ${
-                        filters.category === cat ? 'bg-[#5B0F2A] text-white font-bold' : 'text-stone-700'
-                      }`}
-                    >
-                      {cat}
-                    </button>
-                  ))}
+                  {CATEGORIES.map((cat) => {
+                    const isSelected = normalizeCategory(filters.category) === cat;
+                    const count = cat === 'All' 
+                      ? products.length 
+                      : products.filter(p => normalizeCategory(p.category) === cat).length;
+
+                    return (
+                      <button
+                        key={cat}
+                        onClick={() => {
+                          selectCategory(cat);
+                          setMobileFilterOpen(false);
+                        }}
+                        className={`w-full text-left text-xs py-2 px-2.5 rounded flex items-center justify-between transition-colors cursor-pointer ${
+                          isSelected ? 'bg-[#5B0F2A] text-white font-bold' : 'text-stone-700 hover:bg-stone-100'
+                        }`}
+                      >
+                        <span>{cat}</span>
+                        <span className={`text-[10px] px-1.5 py-0.5 rounded-full font-mono ${
+                          isSelected ? 'bg-white/20 text-white font-bold' : 'bg-stone-100 text-stone-500'
+                        }`}>
+                          {count}
+                        </span>
+                      </button>
+                    );
+                  })}
                 </div>
               </div>
 

@@ -15,53 +15,56 @@ import { useShop } from '../../context/ShopContext';
 import { ModestCategory } from '../../types';
 
 export const JumiaQuickLinks: React.FC = () => {
-  const { setFilters, setActiveTab, setIsSizeGuideOpen, setIsFlyerModalOpen } = useShop();
-
-  const handleCategory = (category: ModestCategory) => {
-    setFilters(prev => ({ ...prev, category, searchQuery: '' }));
-    setActiveTab('shop');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
+  const { 
+    selectCategory, 
+    setActiveTab, 
+    setIsSizeGuideOpen, 
+    setIsFlyerModalOpen,
+    setIsCategoriesModalOpen 
+  } = useShop();
 
   const quickLinks = [
+    {
+      label: 'Categories',
+      sub: 'All Styles',
+      icon: <span className="text-xl font-mono font-black text-[#5B0F2A]">≡</span>,
+      bg: 'bg-pink-100 border-pink-300 ring-2 ring-pink-200/50',
+      action: () => setIsCategoriesModalOpen(true),
+    },
     {
       label: 'Flash Sales',
       sub: 'Up to 30% Off',
       icon: <Flame className="w-5 h-5 text-amber-500 fill-amber-400" />,
       bg: 'bg-amber-50 border-amber-200',
-      action: () => {
-        setFilters(prev => ({ ...prev, category: 'All' }));
-        setActiveTab('shop');
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      },
+      action: () => selectCategory('All'),
     },
     {
       label: 'Straight Cut',
       sub: 'Clean Minimalist',
       icon: <span className="text-xl">👗</span>,
       bg: 'bg-rose-50 border-rose-200',
-      action: () => handleCategory('Straight Abayas & Dresses'),
+      action: () => selectCategory('Straight Abayas & Dresses'),
     },
     {
       label: 'Gathered Boubous',
       sub: 'Tiered & Flowing',
       icon: <span className="text-xl">🌸</span>,
       bg: 'bg-emerald-50 border-emerald-200',
-      action: () => handleCategory('Gathered Abayas'),
+      action: () => selectCategory('Gathered Abayas'),
     },
     {
       label: 'Pleated Luxury',
       sub: 'Accordion Maxi',
       icon: <span className="text-xl">✨</span>,
       bg: 'bg-purple-50 border-purple-200',
-      action: () => handleCategory('Pleated Abayas'),
+      action: () => selectCategory('Pleated Abayas'),
     },
     {
       label: 'Capelet Sets',
       sub: 'Two-Piece Modest',
       icon: <span className="text-xl">👑</span>,
       bg: 'bg-blue-50 border-blue-200',
-      action: () => handleCategory('Capelet & Two-Piece Sets'),
+      action: () => selectCategory('Capelet & Two-Piece Sets'),
     },
     {
       label: 'Size Guide',
@@ -69,13 +72,6 @@ export const JumiaQuickLinks: React.FC = () => {
       icon: <Ruler className="w-5 h-5 text-[#5B0F2A]" />,
       bg: 'bg-pink-50 border-pink-200',
       action: () => setIsSizeGuideOpen(true),
-    },
-    {
-      label: 'Ghana Delivery',
-      sub: '16 Regions Bus',
-      icon: <Truck className="w-5 h-5 text-indigo-600" />,
-      bg: 'bg-indigo-50 border-indigo-200',
-      action: () => setIsFlyerModalOpen(true),
     },
     {
       label: 'My Orders',

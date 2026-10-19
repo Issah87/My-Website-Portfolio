@@ -15,6 +15,7 @@ import { CartDrawer } from './components/cart/CartDrawer';
 import { WebsiteInquiryModal } from './components/modals/WebsiteInquiryModal';
 import { SizeGuideModal } from './components/modals/SizeGuideModal';
 import { FlyerModal } from './components/modals/FlyerModal';
+import { CategoriesModal } from './components/modals/CategoriesModal';
 
 const AppContent: React.FC = () => {
   const { activeTab } = useShop();
@@ -47,6 +48,7 @@ const AppContent: React.FC = () => {
       <WebsiteInquiryModal />
       <SizeGuideModal />
       <FlyerModal />
+      <CategoriesModal />
     </div>
   );
 };
